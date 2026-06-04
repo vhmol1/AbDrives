@@ -4,7 +4,8 @@ const ASSETS = [
   './index.html',
   './manifest.json',
   './falhas.json',
-  'https://cdn-icons-png.flaticon.com/512/595/595000.png'
+  'https://github.com/vhmol1/AbDrives/blob/main/Rockwellautomation--Streamline-Simple-Icons.png'
+  //'https://cdn-icons-png.flaticon.com/512/595/595000.png'
 ];
 
 // Instala o Service Worker e guarda os arquivos no cache
