@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rockwell-faults-v5'; // Alterado para v3 para limpar o histórico do telemóvel
+const CACHE_NAME = 'rockwell-faults-v5.01'; // Alterado para v3 para limpar o histórico do telemóvel
 const ASSETS = [
   './',
   './index.html',
