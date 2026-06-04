@@ -3,332 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Falhas - Rockwell Offline</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1e1e24">
+    <title>Rockwell Automation - Fault & Alarm Central</title>
     <style>
         :root {
-            --bg-color: #121214;
-            --card-bg: #1e1e24;
-            --text-color: #eeeeee;
-            --accent-color: #ff3333; /* Vermelho Rockwell */
-            --text-secondary: #adadb8;
+            --primary-color: #cd1a2b; /* Rockwell Red */
+            --dark-color: #2d3142;
+            --light-bg: #f4f5f6;
+            --card-bg: #ffffff;
+            --border-color: #e1e4e6;
+            --text-main: #333333;
+            --text-muted: #666666;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 16px;
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            margin: 0;
-            color: var(--text-color);
-        }
-
-        .search-box {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 14px;
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px;
             border-radius: 8px;
-            border: 1px solid #333;
-            background-color: var(--card-bg);
-            color: white;
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .search-box:focus {
-            outline: 2px solid var(--accent-color);
-        }
-
-        .filter-container {
-            display: flex;
-            gap: 8px;
             margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filter-container::-webkit-scrollbar {
-            height: 4px;
-        }
-        .filter-container::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 2px;
-        }
-
-        .filter-btn {
-            background-color: var(--card-bg);
-            color: var(--text-secondary);
-            border: 1px solid #333;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .falha-card {
-            background-color: var(--card-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .falha-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .codigo {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--accent-color);
-        }
-
-        .modelo-tag {
-            font-size: 0.75rem;
-            background-color: #333;
-            padding: 4px 8px;
-            border-radius: 4px;
-            color: var(--text-secondary);
-            font-weight: bold;
-        }
-
-        .nome-falha {
-            font-size: 1.1rem;
+        .header-title h1 {
+            font-size: 24px;
             font-weight: 600;
-            margin-bottom: 8px;
         }
 
-        .descricao {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            line-height: 1.4;
+        .header-title p {
+            font-size: 14px;
+            color: #b0b5bc;
         }
 
-        .detalhes-titulo {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--accent-color);
-            margin: 12px 0 6px 0;
+        .lang-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
             font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        ul {
-            margin: 0;
-            padding-left: 18px;
-            font-size: 0.9rem;
-            color: var(--text-color);
+        .lang-btn:hover {
+            background-color: #a5121e;
         }
 
-        li {
-            margin-bottom: 6px;
-            line-height: 1.3;
+        .search-container {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box, .filter-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .fault-code {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .device-tag {
+            background-color: #e8ecef;
+            color: var(--dark-color);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .fault-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .fault-desc {
+            font-size: 14px;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            background: #fafafa;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .fault-action {
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 10px;
+        }
+
+        .action-title {
+            font-weight: 600;
+            color: #2a6f97;
+            margin-bottom: 4px;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .lang-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Guia de Falhas Rockwell</h1>
+        <div class="header-title">
+            <h1 id="title-text">Rockwell Automation - Central de Falhas</h1>
+            <p id="subtitle-text">Consolidado Técnico de Manuais e Guias de Referência</p>
+        </div>
+        <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">Switch to English</button>
     </header>
 
-    <input type="text" id="search" class="search-box" placeholder="Procure por código, nome ou descrição...">
-
-    <div class="filter-container" id="filters">
-        <button class="filter-btn active" onclick="filtrarModelo('TODOS')">Todos</button>
-        <button class="filter-btn" onclick="filtrarModelo('PowerFlex 40')">PF 40</button>
-        <button class="filter-btn" onclick="filtrarModelo('PowerFlex 525')">PF 525</button>
-        <button class="filter-btn" onclick="filtrarModelo('PowerFlex 700')">PF 700</button>
-        <button class="filter-btn" onclick="filtrarModelo('PowerFlex 750')">PF 750</button>
-        <button class="filter-btn" onclick="filtrarModelo('Kinetix 6000')">Kinetix 6000</button>
-        <button class="filter-btn" onclick="filtrarModelo('Kinetix 6500')">Kinetix 6500</button>
-        <button class="filter-btn" onclick="filtrarModelo('Kinetix 5700')">Kinetix 5700</button>
+    <div class="search-container">
+        <div class="search-box">
+            <label id="label-search" for="searchInput">Pesquisar Código ou Palavra-chave:</label>
+            <input type="text" id="searchInput" onkeyup="filterData()" placeholder="Ex: F064, Safe Torque Off, Clock Skew...">
+        </div>
+        <div class="filter-box">
+            <label id="label-filter" for="deviceFilter">Filtrar por Equipamento:</label>
+            <select id="deviceFilter" onchange="filterData()">
+                <option value="all">Todos os Equipamentos</option>
+                <option value="pf520">PowerFlex 520 Series (523 / 525)</option>
+                <option value="pf750">PowerFlex 750 Series</option>
+                <option value="pf700">PowerFlex 700</option>
+                <option value="k5500">Kinetix 5500</option>
+                <option value="k5700">Kinetix 5700</option>
+                <option value="k6000">Kinetix 6000</option>
+                <option value="k6200_6500">Kinetix 6200 / 6500</option>
+            </select>
+        </div>
     </div>
 
-    <div id="lista-falhas"></div>
-
+    <div class="grid" id="faultsGrid">
+        <!-- Os cartões de falhas serão injetados aqui via JavaScript -->
+    </div>
     <script>
-        let modeloAtual = 'TODOS';
+        // Estado Global da Aplicação
+        let currentLang = 'pt';
 
-        // BANCO DE DADOS CORRIGIDO - FALHAS REAIS CONFORME MANUAIS DA ROCKWELL
-        const dadosFalhas = [
-            // === POWERFLEX 40 ===
-            {modelo:"PowerFlex 40", codigo:"F2", falha:"Auxiliary Input", descricao:"Entrada auxiliar de intertravamento externo aberta.", causas:["Circuito de emergência ou chave limitadora aberta."], solucoes:["Verificar fiação no borne de controle correspondente."]},
-            {modelo:"PowerFlex 40", codigo:"F3", falha:"Power Loss", descricao:"Interrupção na alimentação de entrada CA.", causas:["Queda de fase na rede ou abertura do disjuntor de proteção."], solucoes:["Medir a tensão nas três fases de entrada."]},
-            {modelo:"PowerFlex 40", codigo:"F4", falha:"UnderVoltage", descricao:"A tensão do barramento CC caiu abaixo do limite operacional mínimo.", causas:["Subtensão transitória ou permanente na rede de alimentação."], solucoes:["Verificar a estabilidade da rede elétrica sob carga."]},
-            {modelo:"PowerFlex 40", codigo:"F5", falha:"OverVoltage", descricao:"A tensão do barramento CC excedeu o valor máximo seguro.", causas:["Desaceleração muito rápida de uma carga de alta inércia."], solucoes:["Aumentar o tempo de rampa (T040) ou instalar resistor de frenagem."]},
-            {modelo:"PowerFlex 40", codigo:"F6", falha:"Motor Stalled", descricao:"O motor não consegue acelerar ou manter a velocidade demandada.", causas:["Carga mecânica travada ou excessivamente pesada."], solucoes:["Verificar travamentos no acoplamento ou redutor mecânico."]},
-            {modelo:"PowerFlex 40", codigo:"F7", falha:"OverCurrent", descricao:"O inversor detectou uma corrente de saída excessiva.", causas:["Curto-circuito nos cabos do motor ou boost de torque muito alto."], solucoes:["Reduzir parâmetros de boost e testar isolação do motor."]},
-            {modelo:"PowerFlex 40", codigo:"F8", falha:"Heatsink Ovtg", descricao:"Temperatura do dissipador de calor acima do limite seguro.", causas:["Ventoinha de refrigeração traseira suja, obstruída ou queimada."], solucoes:["Limpar as aletas do dissipador com ar comprimido e testar o cooler."]},
-            {modelo:"PowerFlex 40", codigo:"F12", falha:"HW OverCurrent", descricao:"Corrente de saída atingiu o limite físico máximo do hardware.", causas:["Curto-circuito severo entre fases de saída ou falha no módulo IGBT."], solucoes:["Desconectar o motor e testar o inversor sem carga."]},
-            {modelo:"PowerFlex 40", codigo:"F13", falha:"Ground Fault", descricao:"Detectada fuga de corrente para o terra na saída.", causas:["Isolação de um cabo danificada tocando a calha ou umidade no motor."], solucoes:["Medir a isolação de cada fase em relação ao terra com megômetro."]},
-            {modelo:"PowerFlex 40", codigo:"F33", falha:"Auto Rstrt Tries", descricao:"O inversor falhou em reiniciar automaticamente após o limite de tentativas.", causas:["Uma falha persistente não pôde ser limpa de forma automática."], solucoes:["Identificar a falha primária que gerou as paradas sucessivas."]},
+        // Textos Estáticos da Interface
+        const uiTexts = {
+            pt: {
+                title: "Rockwell Automation - Central de Falhas",
+                subtitle: "Consolidado Técnico de Manuais e Guias de Referência",
+                btn: "Switch to English",
+                searchLabel: "Pesquisar Código ou Palavra-chave:",
+                searchPlaceholder: "Ex: F064, Safe Torque Off, Clock Skew...",
+                filterLabel: "Filtrar por Equipamento:",
+                filterAll: "Todos os Equipamentos",
+                actionTitle: "Ação Corretiva:",
+                noResults: "Nenhum código ou falha encontrado para os termos pesquisados."
+            },
+            en: {
+                title: "Rockwell Automation - Fault & Alarm Central",
+                subtitle: "Consolidated Technical Reference from Manuals & Guides",
+                btn: "Mudar para Português",
+                searchLabel: "Search Code or Keyword:",
+                searchPlaceholder: "E.g., F064, Safe Torque Off, Clock Skew...",
+                filterLabel: "Filter by Device/Family:",
+                filterAll: "All Devices",
+                actionTitle: "Corrective Action:",
+                noResults: "No faults or codes matched your search criteria."
+            }
+        };
 
-            // === POWERFLEX 525 ===
-            {modelo:"PowerFlex 525", codigo:"F002", falha:"Auxiliary Input", descricao:"A entrada auxiliar de segurança/intertravamento está aberta.", causas:["Botão de emergência externo acionado ou relé de segurança aberto."], solucoes:["Revisar o circuito de segurança e o aperto dos bornes."]},
-            {modelo:"PowerFlex 525", codigo:"F003", falha:"Power Loss", descricao:"A linha de entrada CC ou CA caiu por um período superior ao tolerado.", causas:["Queda severa ou interrupção na rede elétrica principal."], solucoes:["Monitorar a estabilidade da alimentação geral."]},
-            {modelo:"PowerFlex 525", codigo:"F004", falha:"UnderVoltage", descricao:"A tensão do barramento CC caiu abaixo do valor mínimo.", causas:["Tensão da rede baixa ou partida de grandes motores na mesma linha."], solucoes:["Medir a tensão de linha nas fases L1, L2 e L3."]},
-            {modelo:"PowerFlex 525", codigo:"F005", falha:"OverVoltage", descricao:"A tensão do barramento CC excedeu o limite máximo seguro.", causas:["Energia regenerativa excessiva por desaceleração muito rápida."], solucoes:["Aumentar o tempo de desaceleração (P042) ou instalar resistor."]},
-            {modelo:"PowerFlex 525", codigo:"F006", falha:"Motor Stalled", descricao:"O motor está estolado / travado.", causas:["Sobrecarga mecânica contínua ou aceleração curta demais."], solucoes:["Verificar o eixo mecânico e revisar o parâmetro A444."]},
-            {modelo:"PowerFlex 525", codigo:"F007", falha:"OverCurrent", descricao:"Inversor detectou pico de corrente excessiva na saída.", causas:["Curto-circuito nos cabos, fechamento errado ou motor travado."], solucoes:["Testar a isolação do motor e dos cabos de potência."]},
-            {modelo:"PowerFlex 525", codigo:"F008", falha:"Heatsink Ovtg", descricao:"Temperatura do dissipador de calor ultrapassou 105°C.", causas:["Ventoinha bloqueada ou temperatura do painel muito alta."], solucoes:["Limpar aletas e substituir a ventoinha se necessário."]},
-            {modelo:"PowerFlex 525", codigo:"F012", falha:"HW OverCurrent", descricao:"Limite de corrente física de hardware atingido.", causas:["Curto direto entre fases de saída ou quebra interna do módulo IGBT."], solucoes:["Testar o inversor sem carga (cabos do motor desconectados)."]},
-            {modelo:"PowerFlex 525", codigo:"F013", falha:"Ground Fault", descricao:"Detectada fuga de corrente para o terra em uma das fases.", causas:["Cabo de potência prensado ou bobinas do motor com baixa isolação."], solucoes:["Revisar visualmente os cabos e testar o estator com megômetro."]},
-            {modelo:"PowerFlex 525", codigo:"F015", falha:"Load Loss", descricao:"Perda de carga detectada na saída do inversor.", causas:["Correia de transmissão partida, acoplamento quebrado ou bomba seca."], solucoes:["Verificar a integridade da transmissão mecânica."]},
-            {modelo:"PowerFlex 525", codigo:"F021", falha:"Output Ph Loss", descricao:"Perda de uma das fases de saída (U, V ou W).", causas:["Cabo desconectado nos bornes ou bobina do motor rompida."], solucoes:["Medir a continuidade das fases a partir do inversor."]},
-            {modelo:"PowerFlex 525", codigo:"F029", falha:"Analog In Loss", descricao:"Perda do sinal analógico de controle configurado.", causas:["Cabo do sinal de 4-20mA rompido ou potenciômetro quebrado."], solucoes:["Verificar a fiação analógica e testar a fonte de sinal."]},
-            {modelo:"PowerFlex 525", codigo:"F048", falha:"Params Corrupt", descricao:"Memória de parâmetros corrompida internamente.", causas:["Queda abrupta de energia durante a gravação de dados."], solucoes:["Restaurar os padrões de fábrica do inversor (P053 = 2)."]},
-            {modelo:"PowerFlex 525", codigo:"F073", falha:"Comm Loss", descricao:"Perda de comunicação com a rede de controle industrial.", causas:["Cabo de rede desconectado, switch desligado ou CLP em Stop."], solucoes:["Revisar o cabo Ethernet, conectores RJ45 e lógica do CLP."]},
-            {modelo:"PowerFlex 525", codigo:"F091", falha:"Encoder Loss", descricao:"Perda de feedback do sinal do encoder.", causas:["Fiação do encoder rompida ou canais A/B invertidos."], solucoes:["Revisar o esquema elétrico do cartão e fiação do encoder."]},
-            {modelo:"PowerFlex 525", codigo:"F105", falha:"Cplg Mk-Brk", descricao:"Falha de conexão física entre os módulos do inversor.", causas:["Módulo de controle frontal mal encaixado no módulo de potência."], solucoes:["Desenergizar, remover o bloco frontal e encaixá-lo firmemente."]},
+        // Banco de Dados Consolidado (Dados extraídos dos Manuais)
+        const technicalData = [
+            // --- POWERFLEX 520 SERIES ---
+            {
+                code: "F064",
+                device: "pf520",
+                name: { en: "Overload", pt: "Sobrecarga" },
+                desc: { en: "Drive rating has been exceeded. Output current is too high.", pt: "A capacidade do inversor foi excedida. A corrente de saída está excessivamente alta." },
+                action: { en: "Check for blockage or binding, reduce mechanical load, verify motor parameters.", pt: "Verificar se há travamento mecânico, reduzir a carga acoplada, validar parâmetros do motor." }
+            },
+            {
+                code: "F004",
+                device: "pf520",
+                name: { en: "UnderVoltage", pt: "Subtensão" },
+                desc: { en: "DC bus voltage fell below minimum threshold due to low line input voltage.", pt: "A tensão do barramento CC caiu abaixo do limite mínimo devido à baixa tensão na entrada CA." },
+                action: { en: "Check incoming AC line supply, inspect incoming fuses and line status.", pt: "Verificar a linha de alimentação CA de entrada, inspecionar fusíveis e estabilidade da rede." }
+            },
+            {
+                code: "F005",
+                device: "pf520",
+                name: { en: "OverVoltage", pt: "Sobretensão" },
+                desc: { en: "DC bus voltage exceeded maximum threshold due to excessive deceleration or regeneration.", pt: "A tensão do barramento CC excedeu o limite máximo devido à desaceleração rápida ou regeneração de carga." },
+                action: { en: "Extend deceleration time or install dynamic braking resistor module.", pt: "Aumentar o tempo de desaceleração ou instalar um resistor de frenagem dinâmica." }
+            },
 
-            // === POWERFLEX 700 ===
-            {modelo:"PowerFlex 700", codigo:"F3", falha:"Power Loss", descricao:"Tensão da linha CA de entrada caiu abaixo de 85% da nominal.", causas:["Falta de energia na subestação ou contator de entrada abriu."], solucoes:["Verificar circuitos de comando do contator de entrada."]},
-            {modelo:"PowerFlex 700", codigo:"F4", falha:"UnderVoltage", descricao:"O barramento CC caiu abaixo do limite crítico de disparo.", causas:["Rede elétrica externa com subtensão severa."], solucoes:["Medir as fases de entrada e verificar circuito de pré-carga."]},
-            {modelo:"PowerFlex 700", codigo:"F5", falha:"OverVoltage", descricao:"A tensão do barramento CC ultrapassou o limite máximo.", causas:["Energia gerada pelo motor em cargas verticais ou alta inércia."], solucoes:["Estender rampa de parada ou checar resistores de frenagem."]},
-            {modelo:"PowerFlex 700", codigo:"F7", falha:"Motor Overload", descricao:"A proteção de sobrecarga térmica eletrônica do motor disparou.", causas:["Carga mecânica excessiva ou corrente nominal mal parametrizada."], solucoes:["Corrigir os dados de placa do motor gravados no inversor."]},
-            {modelo:"PowerFlex 700", codigo:"F8", falha:"Heatsink Ovtg", descricao:"Superaquecimento no dissipador principal de alumínio.", causas:["Aletas sujas ou ventilação obstruída no painel elétrico."], solucoes:["Limpar os canais de ar do dissipador e verificar fluxo."]},
-            {modelo:"PowerFlex 700", codigo:"F20", falha:"Motor OverTemp", descricao:"O sensor térmico (termistor) físico do motor disparou.", causas:["Temperatura real do motor muito alta por falta de refrigeração."], solucoes:["Instalar um sistema de ventilação forçada independente no motor."]},
-            {modelo:"PowerFlex 700", codigo:"F38", falha:"Phase U to Grnd", descricao:"Curto-circuito para o terra detectado na Fase U de saída.", causas:["Cabo U danificado ou bobina da fase U em curto com a carcaça."], solucoes:["Isolar o motor e testar o cabo U isoladamente com megômetro."]},
-            {modelo:"PowerFlex 700", codigo:"F39", falha:"Phase V to Grnd", descricao:"Curto-circuito para o terra detectado na Fase V de saída.", causas:["Cabo V danificado ou bobina da fase V em curto com a carcaça."], solucoes:["Isolar o motor e testar o cabo V isoladamente com megômetro."]},
-            {modelo:"PowerFlex 700", codigo:"F40", falha:"Phase W to Grnd", descricao:"Curto-circuito para o terra detectado na Fase W de saída.", causas:["Cabo W danificado ou bobina da fase W em curto com a carcaça."], solucoes:["Isolar o motor e testar o cabo W isoladamente com megômetro."]},
+            // --- POWERFLEX 750 SERIES ---
+            {
+                code: "Fault 7",
+                device: "pf750",
+                name: { en: "Motor Overload", pt: "Sobrecarga do Motor" },
+                desc: { en: "The drive has calculated a thermal overload condition on the connected motor.", pt: "O inversor calculou uma condição de sobrecarga térmica no motor conectado (baseado em I2t)." },
+                action: { en: "Reduce motor load, inspect operation profile, check motor cooling fans.", pt: "Reduzir a carga do motor, inspecionar o perfil de operação, verificar ventilação do motor." }
+            },
+            {
+                code: "Fault 17",
+                device: "pf750",
+                name: { en: "Input Phase Loss", pt: "Perda de Fase de Entrada" },
+                desc: { en: "DC bus ripple exceeds a pre-defined threshold indicating missing input phase.", pt: "O ripple do barramento CC excedeu o limite programado, indicando perda ou desequilíbrio de fase na entrada." },
+                action: { en: "Check incoming power line wiring, inspect fuses and input contactors.", pt: "Verificar a fiação da linha de potência de entrada, testar fusíveis e contatores." }
+            },
 
-            // === POWERFLEX 750 (Fiel ao Manual Oficial) ===
-            {modelo:"PowerFlex 750", codigo:"F2", falha:"Auxiliary Input", descricao:"A entrada auxiliar de segurança foi aberta.", causas:["Interrupção física no laço de segurança externa do painel."], solucoes:["Verificar botões de parada de emergência e chaves de porta."]},
-            {modelo:"PowerFlex 750", codigo:"F3", falha:"Power Loss", descricao:"O inversor detectou queda completa de energia na entrada.", causas:["Fusível geral queimado ou interrupção na alimentação trifásica."], solucoes:["Revisar a integridade da medição de tensão na entrada."]},
-            {modelo:"PowerFlex 750", codigo:"F4", falha:"UnderVoltage", descricao:"Subtensão crítica detectada no barramento CC interno.", causas:["Afundamento severo da tensão da rede de distribuição."], solucoes:["Monitorar oscilações de energia elétrica na planta."]},
-            {modelo:"PowerFlex 750", codigo:"F5", falha:"OverVoltage", descricao:"A tensão do barramento CC excedeu o limite operacional de proteção.", causas:["Carga regenerativa forçando o aumento da tensão na frenagem."], solucoes:["Habilitar o parâmetro 'Bus Regulator' ou revisar o banco de resistores."]},
-            {modelo:"PowerFlex 750", codigo:"F7", falha:"Motor Overload", descricao:"O modelo térmico do inversor calculou uma sobrecarga no motor.", causas:["Operação contínua acima da corrente de regime nominal do motor."], solucoes:["Aliviar a demanda de torque mecânico do equipamento."]},
-            {modelo:"PowerFlex 750", codigo:"F8", falha:"Heatsink Ovtg", descricao:"A temperatura do dissipador principal ultrapassou o limite crítico.", causas:["Filtros de ar do gabinete obstruídos ou falha nos ventiladores."], solucoes:["Substituir filtros e testar os coolers internos via parâmetros."]},
-            {modelo:"PowerFlex 750", codigo:"F9", falha:"Transistor Ovtg", descricao:"Temperatura de junção dos semicondutores (IGBTs) crítica.", causas:["Frequência de chaveamento muito alta combinada com alta carga."], solucoes:["Reduzir o parâmetro de Carrier Frequency (Frequência de Chaveamento)."]},
-            {modelo:"PowerFlex 750", codigo:"F13", falha:"Ground Fault", descricao:"Detectada fuga para o terra em uma ou mais fases de saída.", causas:["Isolação do estator rompida ou cabo de potência danificado."], solucoes:["Efetuar teste de isolamento elétrico com megômetro."]},
-            {modelo:"PowerFlex 750", codigo:"F17", falha:"Input Phase Loss", descricao:"Detecção de perda de fase na alimentação CA de entrada.", causas:["Fusível ultra-rápido de entrada queimado ou desequilíbrio severo."], solucoes:["Medir as tensões L1-L2, L2-L3 e L3-L1 nos bornes."]},
-            {modelo:"PowerFlex 750", codigo:"F24", falha:"Decel Inhibit", descricao:"O inversor suspendeu a desaceleração para evitar uma sobretensão.", causas:["Rampa curta para carga de altíssima inércia sem frenagem dinâmica."], solucoes:["Aumentar tempo da rampa de desaceleração."]},
-            {modelo:"PowerFlex 750", codigo:"F25", falha:"OverSpeed", descricao:"A velocidade medida real ultrapassou o limite de segurança.", causas:["Perda de controle da malha de feedback ou instabilidade de tuning."], solucoes:["Executar o Autotuning dinâmico da malha de velocidade."]},
-            {modelo:"PowerFlex 750", codigo:"F71", falha:"Net Loss", descricao:"Perda de comunicação na interface de rede integrada ou opcional.", causas:["Cabo de rede rompido, switch inoperante ou time-out do CLP."], solucoes:["Verificar cabo de rede industrial e o parâmetro Network Timeout."]},
-            {modelo:"PowerFlex 750", codigo:"F81", falha:"HIM Comm Loss", descricao:"Perda de comunicação com a interface de operação (HIM).", causas:["A IHM física foi removida com o inversor em funcionamento."], solucoes:["Fixar bem a IHM no berço ou alterar parâmetro de ação de perda."]},
-            {modelo:"PowerFlex 750", codigo:"F91", falha:"Encoder 1 Loss", descricao:"Falha ou perda de sinal vinda do Encoder Principal.", causas:["Fiação partida, erro de conexões ou ruído por falta de shield."], solucoes:["Verificar aterramento e fixação da malha do cabo do encoder."]},
-            {modelo:"PowerFlex 750", codigo:"F106", falha:"Invert Overload", descricao:"Sobrecarga térmica calculada do próprio inversor (I²t).", causas:["Uso severo em ciclos repetitivos com correntes próximas do limite."], solucoes:["Avaliar necessidade de upgrade para um inversor de maior potência."]},
-            {modelo:"PowerFlex 750", codigo:"F914", falha:"Port 4 Comm Loss", descricao:"Perda de comunicação com o módulo acessório da Porta 4.", causas:["Placa opcional inserida na porta 4 apresentou falha ou desencaixou."], solucoes:["Desenergizar o drive e inspecionar o encaixe do cartão no slot."]},
-            {modelo:"PowerFlex 750", codigo:"F915", falha:"Port 5 Comm Loss", descricao:"Perda de comunicação com o módulo acessório da Porta 5.", causas:["Placa opcional inserida na porta 5 apresentou falha ou desencaixou."], solucoes:["Desenergizar o drive e inspecionar o encaixe do cartão no slot."]},
-            {modelo:"PowerFlex 750", codigo:"F916", falha:"Port 6 Comm Loss", descricao:"Perda de comunicação com o módulo acessório da Porta 6.", causas:["Placa opcional inserida na porta 6 apresentou falha ou desencaixou."], solucoes:["Desenergizar o drive e inspecionar o encaixe do cartão no slot."]},
+            // --- POWERFLEX 700 ---
+            {
+                code: "Fault 9",
+                device: "pf700",
+                name: { en: "Overcurrent", pt: "Sobrecorrente" },
+                desc: { en: "The drive output current has exceeded the hardware limit detection.", pt: "A corrente de saída do inversor ultrapassou instantaneamente o limite de segurança de hardware." },
+                action: { en: "Check for short circuit in motor cables or ground faults, check tuning.", pt: "Verificar curto-circuito nos cabos do motor ou falhas à terra, revisar sintonia do loop." }
+            },
 
-            // === KINETIX 6000 ===
-            {modelo:"Kinetix 6000", codigo:"E05", falha:"Bus Reg Ovtg", descricao:"Sobreaquecimento no circuito do regulador do barramento CC.", causas:["Paradas agressivas dissipando muita energia regenerativa no shunt."], solucoes:["Suavizar rampas de desaceleração no perfil de movimento Logix."]},
-            {modelo:"Kinetix 6000", codigo:"E18", falha:"Overspeed Fault", descricao:"Velocidade medida do servo motor excedeu o limite seguro.", causas:["Ajuste incorreto de ganhos de malha (Tuning instável)."], solucoes:["Executar o Autotuning do eixo através do software Studio 5000."]},
-            {modelo:"Kinetix 6000", codigo:"E19", falha:"Fdbk Comm Loss", descricao:"Perda de comunicação contínua com o encoder do servo motor.", causas:["Mau contato em conectores ou ruído elétrico degradando o sinal."], solucoes:["Utilizar cabos de feedback homologados com blindagem correta."]},
-            {modelo:"Kinetix 6000", codigo:"E54", falha:"IPM Thermal Fault", descricao:"Falha térmica no Módulo de Potência Inteligente (IPM).", causas:["Corrente RMS contínua muito alta ou ventilação obstruída."], solucoes:["Verificar o ciclo de trabalho do servo e o espaçamento no trilho."]},
+            // --- KINETIX 5500 ---
+            {
+                code: "NODE ALARM 03",
+                device: "k5500",
+                name: { en: "Clock Jitter Alarm", pt: "Alarme de Jitter de Relógio" },
+                desc: { en: "The sync variance has exceeded the sync threshold while the device is running in sync mode.", pt: "A variação de sincronismo (sync variance) excedeu o limite tolerado no modo síncrono CIP Sync." },
+                action: { en: "Check Ethernet connections and switches. Use managed switches with PTP support.", pt: "Verificar fiação e switches Ethernet. Utilizar switch gerenciável com suporte a CIP Sync (PTP)." }
+            },
+            {
+                code: "SAFE FLT S03",
+                device: "k5500",
+                name: { en: "Safe Torque Off Fault", pt: "Falha de Safe Torque Off" },
+                desc: { en: "Drive safety diagnostic detected internal STO design failure or state mismatch.", pt: "O diagnóstico interno de segurança do drive detectou uma falha de projeto interno do circuito STO." },
+                action: { en: "Cycle control power, execute STO function. Return drive for repair if continues.", pt: "Ciclar a alimentação de controle, executar a função STO. Substituir unidade se persistir." }
+            },
 
-            // === KINETIX 6500 ===
-            {modelo:"Kinetix 6500", codigo:"FLT S07", falha:"Mtr Overtemp", descricao:"Sensor térmico interno do servo motor indicou superaquecimento.", causas:["Servo operando sob alto torque por tempo excessivo."], solucoes:["Deixar o motor esfriar e inspecionar redutores ou travamentos."]},
-            {modelo:"Kinetix 6500", codigo:"FLT S10", falha:"Position Error", descricao:"Erro de acompanhamento de posição (Lag) acima da tolerância.", causas:["Mecânica pesada/emperrada ou ganhos de posição baixos."], solucoes:["Desengatar o motor para verificar a suavidade do eixo mecânico."]},
-            {modelo:"Kinetix 6500", codigo:"FLT S21", falha:"Enc Hardware Flt", descricao:"Falha física de hardware detectada no circuito interno do encoder.", causas:["Dano no disco óptico interno gerado por impactos mecânicos no eixo."], solucoes:["Substituir o servo motor ou encaminhar para manutenção especializada."]},
-            {modelo:"Kinetix 6500", codigo:"FLT M05", falha:"Sync Loss", descricao:"Perda de sincronismo na rede de movimento CIP Motion.", causas:["Uso de switch de rede comum sem suporte a PTP / IEEE 1588."], solucoes:["Substituir a infraestrutura de rede por switches gerenciáveis Stratix."]},
+            // --- KINETIX 5700 ---
+            {
+                code: "FLT M02",
+                device: "k5700",
+                name: { en: "Motor Voltage Mismatch Fault", pt: "Falha de Incompatibilidade de Tensão do Motor" },
+                desc: { en: "Configured drive voltage is greater than motor rated voltage.", pt: "A tensão configurada no drive é superior à nominal do motor (ex: drive de 400V com motor de 200V)." },
+                action: { en: "Set the drive voltage to a lower value or replace motor with matching voltage rating.", pt: "Ajustar a configuração de tensão para um valor menor ou adequar o motor ao modelo correto." }
+            },
 
-            // === KINETIX 5700 ===
-            {modelo:"Kinetix 5700", codigo:"F001", falha:"Pre-Charge Failure", descricao:"O circuito de pré-carga falhou em carregar o barramento CC no tempo correto.", causas:["Tensão CA instável ou curto direto nas barras de cobre traseiras."], solucoes:["Inspecionar visualmente as barras de interconexão CC compartilhadas."]},
-            {modelo:"Kinetix 5700", codigo:"F019", falha:"Feedback Device Loss", descricao:"Perda de conexão do dispositivo de feedback digital inteligente.", causas:["Rompimento ou mau contato no cabo único de tecnologia digital DSL."], solucoes:["Garantir o aperto correto do suporte de aterramento metálico (shield clamp)."]},
-            {modelo:"Kinetix 5700", codigo:"F031", falha:"Safe Torque Off Flt", descricao:"Discrepância de status detectada nas entradas de segurança STO.", causas:["Um dos canais redundantes abriu de forma dessincronizada."], solucoes:["Verificar o relé de segurança ou o módulo digital GuardLogix do CLP."]},
-            {modelo:"Kinetix 5700", codigo:"F045", falha:"Motor Thermal Overload", descricao:"Modelo eletrônico de temperatura do servo motor atingiu o limite crítico.", causas:["Ciclo de trabalho da máquina excessivo para a dimensão do motor."], solucoes:["Otimizar as curvas de movimento e tempos de ciclo no programa."]}
+            // --- KINETIX 6000 ---
+            {
+                code: "E04",
+                device: "k6000",
+                name: { en: "Motor Overtemperature Fault", pt: "Falha de Sobretemperatura do Motor" },
+                desc: { en: "Thermal switch or thermistor on the motor indicates excessive temperature winding.", pt: "O termistor ou interruptor térmico do motor acionou, indicando aquecimento crítico do enrolamento." },
+                action: { en: "Allow motor to cool down, check ambient temperature, inspect duty cycle.", pt: "Aguardar o motor resfriar, monitorar a temperatura ambiente e recalcular o ciclo de trabalho." }
+            },
+
+            // --- KINETIX 6200 / 6500 ---
+            {
+                code: "FLT 128:09",
+                device: "k6200_6500",
+                name: { en: "Guard Stop Input Mismatch", pt: "Divergência nos Canais de Entrada de Segurança" },
+                desc: { en: "Safe torque-off mismatch is detected when safety inputs are in different states for >1.0s.", pt: "Detectado desalinhamento dos canais STO por período superior a 1,0 segundo." },
+                action: { en: "Verify safety wiring connections, check state of dual safety inputs.", pt: "Verificar conexões e fiação do circuito de segurança, testar saídas do relé ou CLP de segurança." }
+            }
         ];
 
-        // FUNÇÕES DO SISTEMA DE BUSCA E FILTRAGEM
-        function renderizarFalhas() {
-            const container = document.getElementById('lista-falhas');
-            const termoBusca = document.getElementById('search').value.toLowerCase();
-            
-            container.innerHTML = '';
+        // Lógica de Alternância de Idioma
+        function toggleLanguage() {
+            currentLang = currentLang === 'pt' ? 'en' : 'pt';
+            updateUI();
+            renderCards(technicalData);
+        }
 
-            const filtrados = dadosFalhas.filter(item => {
-                const correspondeModelo = (modeloAtual === 'TODOS' || item.modelo === modeloAtual);
-                const correspondeBusca = item.codigo.toLowerCase().includes(termoBusca) || 
-                                         item.falha.toLowerCase().includes(termoBusca) || 
-                                         item.descricao.toLowerCase().includes(termoBusca);
-                return correspondeModelo && correspondeBusca;
-            });
+        function updateUI() {
+            const texts = uiTexts[currentLang];
+            document.getElementById('title-text').innerText = texts.title;
+            document.getElementById('subtitle-text').innerText = texts.subtitle;
+            document.getElementById('langToggle').innerText = texts.btn;
+            document.getElementById('label-search').innerText = texts.searchLabel;
+            document.getElementById('searchInput').placeholder = texts.searchPlaceholder;
+            document.getElementById('label-filter').innerText = texts.filterLabel;
+            document.getElementById('deviceFilter').options[0].text = texts.filterAll;
+        }
 
-            if(filtrados.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color: var(--text-secondary); padding: 20px;">Nenhuma falha correspondente encontrada.</p>`;
+        // Renderização dos Cards na Tela
+        function renderCards(data) {
+            const grid = document.getElementById('faultsGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = `<div class="no-results">${uiTexts[currentLang].noResults}</div>`;
                 return;
             }
 
-            filtrados.forEach(item => {
+            data.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'falha-card';
+                card.className = 'card';
+
+                const deviceNames = {
+                    pf520: "PowerFlex 520",
+                    pf750: "PowerFlex 750",
+                    pf700: "PowerFlex 700",
+                    k5500: "Kinetix 5500",
+                    k5700: "Kinetix 5700",
+                    k6000: "Kinetix 6000",
+                    k6200_6500: "Kinetix 6200/6500"
+                };
+
                 card.innerHTML = `
-                    <div class="falha-header">
-                        <span class="codigo">${item.codigo}</span>
-                        <span class="modelo-tag">${item.modelo}</span>
+                    <div>
+                        <div class="card-header">
+                            <span class="fault-code">${item.code}</span>
+                            <span class="device-tag">${deviceNames[item.device]}</span>
+                        </div>
+                        <div class="fault-name">${item.name[currentLang]}</div>
+                        <div class="fault-desc">${item.desc[currentLang]}</div>
                     </div>
-                    <div class="nome-falha">${item.falha}</div>
-                    <div class="descricao">${item.descricao}</div>
-                    
-                    <div class="detalhes-titulo">Possíveis Causas</div>
-                    <ul>${item.causas.map(c => `<li>${c}</li>`).join('')}</ul>
-                    
-                    <div class="detalhes-titulo">Soluções Recomendadas</div>
-                    <ul>${item.solucoes.map(s => `<li>${s}</li>`).join('')}</ul>
+                    <div class="fault-action">
+                        <div class="action-title">${uiTexts[currentLang].actionTitle}</div>
+                        <div>${item.action[currentLang]}</div>
+                    </div>
                 `;
-                container.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
-        function filtrarModelo(modelo) {
-            modeloAtual = modelo;
-            
-            const botoes = document.querySelectorAll('.filter-btn');
-            botoes.forEach(btn => btn.classList.remove('active'));
-            
-            botoes.forEach(btn => {
-                if (modelo === 'TODOS' && btn.textContent === 'Todos') btn.classList.add('active');
-                if (modelo === 'PowerFlex 40' && btn.textContent === 'PF 40') btn.classList.add('active');
-                if (modelo === 'PowerFlex 525' && btn.textContent === 'PF 525') btn.classList.add('active');
-                if (modelo === 'PowerFlex 700' && btn.textContent === 'PF 700') btn.classList.add('active');
-                if (modelo === 'PowerFlex 750' && btn.textContent === 'PF 750') btn.classList.add('active');
-                if (modelo === 'Kinetix 6000' && btn.textContent === 'Kinetix 6000') btn.classList.add('active');
-                if (modelo === 'Kinetix 6500' && btn.textContent === 'Kinetix 6500') btn.classList.add('active');
-                if (modelo === 'Kinetix 5700' && btn.textContent === 'Kinetix 5700') btn.classList.add('active');
+        // Sistema de Filtragem Dinâmica
+        function filterData() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const filterVal = document.getElementById('deviceFilter').value;
+
+            const filtered = technicalData.filter(item => {
+                const matchesDevice = (filterVal === 'all' || item.device === filterVal);
+                const matchesSearch = (
+                    item.code.toLowerCase().includes(searchVal) ||
+                    item.name[currentLang].toLowerCase().includes(searchVal) ||
+                    item.desc[currentLang].toLowerCase().includes(searchVal)
+                );
+                return matchesDevice && matchesSearch;
             });
-            
-            renderizarFalhas();
+
+            renderCards(filtered);
         }
 
-        document.getElementById('search').addEventListener('input', renderizarFalhas);
-        
-        // Inicializa a exibição padrão
-        renderizarFalhas();
-
-        // REGISTRO DO SERVICE WORKER (PWA)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log("Service Worker ativo e pronto!"))
-            .catch(err => console.log("Erro no SW:", err));
-        }
+        // Inicialização
+        window.onload = function() {
+            updateUI();
+            renderCards(technicalData);
+        };
     </script>
 </body>
 </html>
