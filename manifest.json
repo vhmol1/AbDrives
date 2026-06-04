@@ -1,6 +1,6 @@
 {
   "name": "Guia de Falhas Rockwell",
-  "short_name": "Falhas Rockwell",
+  "short_name": "Rockwell Drives Faults",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#121214",
