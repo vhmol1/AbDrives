@@ -8,8 +8,8 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://github.com/vhmol1/AbDrives/blob/main/Rockwellautomation--Streamline-Simple-Icons.png"
-      //"https://cdn-icons-png.flaticon.com/512/595/595000.png",
+      "src": "https://github.com/vhmol1/AbDrives/blob/main/Rockwellautomation--Streamline-Simple-Icons.png",
+      //"https://cdn-icons-png.flaticon.com/512/595/595000.png"
       "sizes": "512x512",
       "type": "image/png"
     }
