@@ -1,10 +1,10 @@
-const CACHE_NAME = 'rockwell-faults-v7.02'; // Alterado para v3 para limpar o histórico do telemóvel
+const CACHE_NAME = 'rockwell-faults-v7.03'; // Alterado para v3 para limpar o histórico do telemóvel
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './falhas.json',
-  'https://github.com/vhmol1/AbDrives/blob/main/Rockwellautomation--Streamline-Simple-Icons.png'
+  'https://raw.githubusercontent.com/vhmol1/AbDrives/refs/heads/main/Rockwellautomation--Streamline-Simple-Icons.png'
   //'https://cdn-icons-png.flaticon.com/512/595/595000.png'
 ];
 
