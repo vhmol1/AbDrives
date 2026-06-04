@@ -1,7 +1,9 @@
-const CACHE_NAME = 'rockwell-faults-v1';
+const CACHE_NAME = 'rockwell-faults-v3'; // Alterado para v3 para limpar o histórico do telemóvel
 const ASSETS = [
-  'index.html',
-  'manifest.json',
+  './',
+  './index.html',
+  './manifest.json',
+  './falhas.json',
   'https://cdn-icons-png.flaticon.com/512/595/595000.png'
 ];
 
