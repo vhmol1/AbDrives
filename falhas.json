@@ -1,0 +1,346 @@
+[
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F002",
+    "falha": "Auxiliary Input",
+    "descricao": "A entrada auxiliar de intertravamento externo está aberta.",
+    "causas": ["Circuito de segurança ou botão de emergência externo foi acionado.", "Fiação frouxa ou interrompida no borne de controle configurado."],
+    "solucoes": ["Verificar o estado dos botões de emergência e relés de segurança.", "Revisar o aperto dos bornes e a continuidade do cabo de intertravamento."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F003",
+    "falha": "Power Loss",
+    "descricao": "A linha de entrada CC ou CA caiu por um período superior ao limite permitido.",
+    "causas": ["Queda severa ou interrupção na rede elétrica principal.", "Falha em uma das fases de alimentação antes do inversor."],
+    "solucoes": ["Monitorar a estabilidade da rede de alimentação geral.", "Verificar se há disjuntores ou fusíveis de entrada abertos."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F004",
+    "falha": "UnderVoltage",
+    "descricao": "A tensão do barramento CC caiu abaixo do valor mínimo operacional.",
+    "causas": ["Tensão da rede elétrica permanentemente baixa.", "Queda de tensão transitória severa (geralmente por partida de grandes motores na mesma linha)."],
+    "solucoes": ["Medir a tensão de linha nas fases L1, L2 e L3.", "Verificar o dimensionamento do transformador ou da linha de alimentação."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F005",
+    "falha": "OverVoltage",
+    "descricao": "A tensão do barramento CC excedeu o valor máximo seguro.",
+    "causas": ["Desaceleração do motor muito rápida (energia regenerativa excessiva).", "Sobretensão na rede elétrica de entrada."],
+    "solucoes": ["Aumentar o tempo de desaceleração (Parâmetro P042).", "Instalar ou verificar o funcionamento do resistor de frenagem dinâmica."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F007",
+    "falha": "OverCurrent",
+    "descricao": "O inversor detectou uma corrente excessiva na saída.",
+    "causas": ["Carga mecânica presa ou motor travado.", "Tempo de aceleração excessivamente curto.", "Curto-circuito nos cabos ou bobinas do motor."],
+    "solucoes": ["Verificar se o eixo mecânico e o motor giram livremente.", "Aumentar o tempo de aceleração (Parâmetro P041).", "Testar a isolação do motor e cabos com um megômetro."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F008",
+    "falha": "Heatsink Ovtg",
+    "descricao": "A temperatura do dissipador de calor do inversor excedeu o limite seguro.",
+    "causas": ["Temperatura ambiente ao redor do painel muito alta.", "Ventoinha de refrigeração traseira bloqueada, suja ou queimada."],
+    "solucoes": ["Limpar as aletas do dissipador com ar comprimido.", "Substituir a ventoinha se não estiver girando com o inversor habilitado."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F012",
+    "falha": "HW OverCurrent",
+    "descricao": "Corrente de saída atingiu o limite físico de hardware.",
+    "causas": ["Curto-circuito direto entre fases na saída.", "Falha ou quebra interna do módulo IGBT."],
+    "solucoes": ["Desconectar os cabos do motor e testar o inversor sem carga. Se a falha persistir, o hardware do inversor está danificado."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F013",
+    "falha": "Ground Fault",
+    "descricao": "Detectada fuga de corrente para o terra em uma das fases de saída.",
+    "causas": ["Isolação de um cabo de saída danificada tocando a estrutura metálica.", "Fuga interna nas bobinas do motor para a carcaça (umidade ou sobreaquecimento)."],
+    "solucoes": ["Revisar visualmente os cabos de potência.", "Medir a isolação de cada fase do motor em relação ao terra."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F073",
+    "falha": "Motor Overload",
+    "descricao": "O motor operou acima da corrente nominal por tempo excessivo (I²t).",
+    "causas": ["Sobrecarga mecânica contínua na aplicação.", "Configuração incorreta do parâmetro de corrente nominal do motor (P039).", "Operação prolongada em frequências muito baixas sem ventilação forçada."],
+    "solucoes": ["Reduzir o peso ou demanda mecânica.", "Corrigir os dados de placa do motor no inversor.", "Instalar ventilação independente no motor se trabalhar muito tempo em baixa velocidade."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F081",
+    "falha": "Comm Loss",
+    "descricao": "O inversor perdeu comunicação com a rede ou acessório de controle.",
+    "causas": ["Cabo de rede (Ethernet/Modbus) desconectado ou rompido.", "Ruído eletromagnético excessivo interferindo no sinal.", "Controlador (CLP) parou de enviar pacotes."],
+    "solucoes": ["Verificar conectores RJ45 e a integridade dos cabos de rede.", "Garantir o distanciamento entre cabos de sinal e cabos de potência.", "Revisar a lógica e o status do CLP."]
+  },
+  {
+    "modelo": "PowerFlex 525",
+    "codigo": "F105",
+    "falha": "Cplg Mk-Brk",
+    "descricao": "Falha na conexão do módulo de controle com o módulo de potência.",
+    "causas": ["Módulo de controle frontal mal encaixado ou frouxo.", "Contatos traseiros sujos ou pinos tortos."],
+    "solucoes": ["Desenergizar completamente o inversor, remover o módulo frontal e encaixá-lo firmemente de volta.", "Verificar se há pinos danificados na interface entre os módulos."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F7",
+    "falha": "Motor Overload",
+    "descricao": "O modelo térmico interno calculou um superaquecimento no motor.",
+    "causas": ["Carga contínua acima do limite nominal da máquina.", "Fator de serviço do motor ultrapassado."],
+    "solucoes": ["Aliviar a carga de trabalho mecânica.", "Verificar as configurações de proteção térmica no Menu de Motores."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F8",
+    "falha": "Heatsink Ovtg",
+    "descricao": "A temperatura do dissipador principal ultrapassou o limite máximo.",
+    "causas": ["Bloqueio do fluxo de ar nas aberturas do gabinete.", "Falha ou travamento dos ventiladores internos de alta capacidade."],
+    "solucoes": ["Remover obstruções e limpar filtros de ar do painel.", "Verificar através dos parâmetros a velocidade e funcionamento das ventoinhas."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F17",
+    "falha": "Input Phase Loss",
+    "descricao": "Detecção de perda de fase na alimentação CA de entrada.",
+    "causas": ["Desequilíbrio de tensão severo na rede elétrica.", "Fusível ultra-rápido de entrada queimado.", "Falha nos contatos do contator de potência de entrada."],
+    "solucoes": ["Medir as tensões L1-L2, L2-L3, L3-L1 na entrada do inversor.", "Substituir fusíveis danificados ou inspecionar o contator."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F24",
+    "falha": "Decel Inhibit",
+    "descricao": "O inversor foi impedido de desacelerar porque a tensão do barramento CC subiu demais.",
+    "causas": ["Rampa de parada curta demais para uma carga de altíssima inércia.", "O inversor está tentando frear sem ter um resistor ou módulo regenerativo conectado."],
+    "solucoes": ["Aumentar o tempo da rampa de desaceleração.", "Mudar a configuração de frenagem para rampa inteligente (Bus Regulator habilitado)."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F71",
+    "falha": "Net Loss",
+    "descricao": "Perda de comunicação na porta de rede embutida ou na placa opcional.",
+    "causas": ["Cabo Ethernet desconectado ou switch de rede desligado.", "Time-out na recepção de dados do CLP (mestre)."],
+    "solucoes": ["Verificar o switch e os cabos de rede industriais.", "Revisar o parâmetro de tempo limite de rede (Network Timeout)."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F91",
+    "falha": "Encoder 1 Loss",
+    "descricao": "Perda de sinal ou falha de feedback detectada no módulo do Encoder 1.",
+    "causas": ["Fiação do encoder rompida, mal conectada ou invertida.", "Falta de alimentação no canal do encoder.", "Ruído induzido por ausência de aterramento da malha (shield)."],
+    "solucoes": ["Revisar todas as conexões físicas do cartão de feedback.", "Verificar o aterramento da blindagem do cabo do encoder na carcaça do painel."]
+  },
+  {
+    "modelo": "PowerFlex 750",
+    "codigo": "F106",
+    "falha": "Invert Overload",
+    "descricao": "O inversor operou acima do seu limite de corrente nominal de projeto (I²t do inversor).",
+    "causas": ["Ciclo de trabalho severo com picos de sobrecorrente frequentes.", "Inversor subdimensionado para a potência real exigida pela carga."],
+    "solucoes": ["Avaliar a necessidade de substituir o inversor por um de maior capacidade (Frame maior).", "Reduzir a taxa de ciclo de trabalho ou acelerações repetitivas."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F3",
+    "falha": "Power Loss",
+    "descricao": "A tensão da linha de entrada caiu abaixo de 85% do valor nominal.",
+    "causas": ["Falta de energia ou afundamento de tensão prolongado.", "Contator de entrada abriu sob carga."],
+    "solucoes": ["Verificar a estabilidade e a qualidade da energia elétrica da planta.", "Inspecionar circuitos de comando que controlam o contator de entrada."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F4",
+    "falha": "UnderVoltage",
+    "descricao": "O barramento CC caiu abaixo do limite mínimo de disparo.",
+    "causas": ["Linha de alimentação com subtensão severa.", "Fusível de proteção interna aberto."],
+    "solucoes": ["Medir a tensão nas fases de entrada.", "Se as tensões externas estiverem normais, verificar o circuito de pré-carga interno."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F5",
+    "falha": "OverVoltage",
+    "descricao": "Tensão do barramento CC ultrapassou o limite superior tolerado.",
+    "causas": ["Ação regenerativa do motor em cargas verticais (guindastes, elevadores) ou alta inércia.", "Falta de freio dinâmico funcional."],
+    "solucoes": ["Verificar o transistor de frenagem e a resistência do bloco de resistores.", "Estender o tempo de desaceleração."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F7",
+    "falha": "Motor Overload",
+    "descricao": "A sobrecarga térmica eletrônica do motor disparou.",
+    "causas": ["O motor está rodando travado ou muito pesado.", "Corrente nominal parametrizada incorretamente no grupo de dados do motor."],
+    "solucoes": ["Verificar o acoplamento mecânico.", "Ajustar os parâmetros de proteção do motor com base nos dados reais de placa."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F38",
+    "falha": "Phase U to Grnd",
+    "descricao": "Detectado um curto-circuito para o terra na Fase U de saída.",
+    "causas": ["Falha de isolação no cabo conectado ao terminal U.", "Bobina interna da fase U do motor em curto com a carcaça."],
+    "solucoes": ["Desconectar o motor e medir com megômetro a fase U isoladamente.", "Substituir o cabo ou recuperar o isolamento do motor."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F39",
+    "falha": "Phase V to Grnd",
+    "descricao": "Detectado um curto-circuito para o terra na Fase V de saída.",
+    "causas": ["Falha de isolação no cabo conectado ao terminal V.", "Bobina interna da fase V do motor em curto com a carcaça."],
+    "solucoes": ["Desconectar o motor e medir com megômetro a fase V isoladamente.", "Substituir o cabo ou recuperar o isolamento do motor."]
+  },
+  {
+    "modelo": "PowerFlex 700",
+    "codigo": "F40",
+    "falha": "Phase W to Grnd",
+    "descricao": "Detectado um curto-circuito para o terra na Fase W de saída.",
+    "causas": ["Falha de isolação no cabo conectado ao terminal W.", "Bobina interna da fase W do motor em curto com a carcaça."],
+    "solucoes": ["Desconectar o motor e medir com megômetro a fase W isoladamente.", "Substituir o cabo ou recuperar o isolamento do motor."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F2",
+    "falha": "Auxiliary Input",
+    "descricao": "O contato de intertravamento auxiliar foi aberto.",
+    "causas": ["Abertura de uma chave limitadora ou circuito de emergência cabeado."],
+    "solucoes": ["Verificar o circuito de controle conectado ao borne de entrada auxiliar."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F3",
+    "falha": "Power Loss",
+    "descricao": "Interrupção na alimentação de entrada.",
+    "causas": ["Falha na rede ou desligamento abrupto do disjuntor."],
+    "solucoes": ["Revisar a integridade da linha de força trifásica."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F4",
+    "falha": "UnderVoltage",
+    "descricao": "Tensão do barramento CC abaixo do limite mínimo.",
+    "causas": ["Queda de tensão na rede elétrica de entrada.", "Fase de entrada caída."],
+    "solucoes": ["Verificar e estabilizar a tensão de alimentação CA."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F5",
+    "falha": "OverVoltage",
+    "descricao": "Barramento CC excedeu o nível máximo tolerado.",
+    "causas": ["O motor está agindo como gerador durante a frenagem.", "Rampa de desaceleração muito agressiva."],
+    "solucoes": ["Aumentar o tempo de rampa (Parâmetro T040) ou usar unidade de frenagem externa."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F7",
+    "falha": "OverCurrent",
+    "descricao": "Corrente de saída ultrapassou o limite máximo estipulado.",
+    "causas": ["Carga mecânica excessiva, travamento ou curto na saída."],
+    "solucoes": ["Inspecionar a carga e o motor. Verificar se há parâmetros de boost de torque muito altos."]
+  },
+  {
+    "modelo": "PowerFlex 40",
+    "codigo": "F33",
+    "falha": "Auto Rstrt Tries",
+    "descricao": "O inversor falhou em reiniciar automaticamente após o número configurado de tentativas.",
+    "causas": ["Uma falha persistente não pôde ser limpa de forma automática.", "Configuração incorreta do número de tentativas de reset automático."],
+    "solucoes": ["Identificar a falha primária que está causando as paradas. Corrigir o problema antes de rearmar manualmente."]
+  },
+  {
+    "modelo": "Kinetix 6000",
+    "codigo": "E05",
+    "falha": "Bus Reg Ovtg",
+    "descricao": "Sobreaquecimento no circuito do regulador do barramento CC (frenagem).",
+    "causas": ["Excesso de energia regenerada pelo servo motor devido a paradas extremamente rápidas.", "Resistor de frenagem shunt interno operando acima da capacidade térmica máxima."],
+    "solucoes": ["Reduzir a aceleração/desaceleração no perfil de movimento do software Logix.", "Instalar um módulo de resistor de frenagem externo de maior capacidade."]
+  },
+  {
+    "modelo": "Kinetix 6000",
+    "codigo": "E18",
+    "falha": "Overspeed Fault",
+    "descricao": "A velocidade real do servo motor excedeu o limite de velocidade segura configurado.",
+    "causas": ["Ganho de malha de velocidade instável (ajuste de sintonia incorreto/Tuning incorreto).", "A carga mecânica empurrou ou acelerou o motor independentemente."],
+    "solucoes": ["Executar um novo Autotuning ou reduzir os ganhos de posição/velocidade.", "Verificar se há forças externas atuando na carga."]
+  },
+  {
+    "modelo": "Kinetix 6000",
+    "codigo": "E19",
+    "falha": "Fdbk Comm Loss",
+    "descricao": "Perda de comunicação contínua com o encoder inteligente do servo motor.",
+    "causas": ["Cabo de feedback com mau contato no conector circular do motor ou no drive.", "Ruído elétrico de alta frequência degradando o sinal serial de feedback."],
+    "solucoes": ["Limpar e reapertar as conexões do cabo de feedback.", "Utilizar cabos de feedback homologados pela Rockwell com blindagem adequada."]
+  },
+  {
+    "modelo": "Kinetix 6000",
+    "codigo": "E54",
+    "falha": "IPM Thermal Fault",
+    "descricao": "Falha térmica no Módulo de Potência Inteligente (IPM) do servo-drive.",
+    "causas": ["Corrente RMS de trabalho muito alta de forma contínua.", "Ventilação do módulo do trilho (IAM/AM) obstruída."],
+    "solucoes": ["Verificar o ciclo de trabalho do servomotor através do software.", "Garantir o espaçamento correto entre os módulos no trilho de montagem."]
+  },
+  {
+    "modelo": "Kinetix 6500",
+    "codigo": "FLT S07",
+    "falha": "Mtr Overtemp",
+    "descricao": "O termistor/interrupção térmica embutida no servo motor indicou superaquecimento.",
+    "causas": ["Servo motor operando sob alto torque por tempo excessivo.", "Fiação do sensor térmico no cabo de feedback rompida."],
+    "solucoes": ["Deixar o motor esfriar. Verificar se há travamentos mecânicos na transmissão (redutores, fusos).", "Testar a continuidade do circuito térmico no cabo."]
+  },
+  {
+    "modelo": "Kinetix 6500",
+    "codigo": "FLT S10",
+    "falha": "Position Error",
+    "descricao": "O erro de acompanhamento (Pos Error) excedeu o limite programado.",
+    "causas": ["A mecânica está pesada ou emperrada, impedindo o motor de atingir a posição desejada.", "Limites de erro de posição muito estreitos no software.", "Ganhos de malha baixos demais."],
+    "solucoes": ["Verificar a suavidade do movimento mecânico desengatando o motor.", "Aumentar a tolerância de erro de posição ou ajustar a sintonia de ganhos."]
+  },
+  {
+    "modelo": "Kinetix 6500",
+    "codigo": "FLT S21",
+    "falha": "Enc Hardware Flt",
+    "descricao": "Falha física de hardware detectada no circuito interno do encoder.",
+    "causas": ["Dano físico no disco óptico ou circuito magnético interno do encoder devido a impactos mecânicos no eixo.", "Curto-circuito nas linhas de alimentação de sinal."],
+    "solucoes": ["Substituir o servo motor ou enviar o motor para reparo especializado.", "Testar com outro cabo para descartar curto na linha."]
+  },
+  {
+    "modelo": "Kinetix 6500",
+    "codigo": "FLT M05",
+    "falha": "Sync Loss",
+    "descricao": "Perda de sincronismo na rede de movimento em tempo real (CIP Motion).",
+    "causas": ["Switch de rede inadequado (não suporta PTP / IEEE 1588).", "Jitter ou tráfego excessivo na rede Ethernet de automação."],
+    "solucoes": ["Utilizar switches gerenciáveis homologados com suporte a QoS e CIP Motion (ex: Stratix).", "Isolar a rede de movimento do tráfego comum de TI."]
+  },
+  {
+    "modelo": "Kinetix 5700",
+    "codigo": "F001",
+    "falha": "Pre-Charge Failure",
+    "descricao": "O circuito de pré-carga do barramento CC falhou em completar o ciclo dentro do tempo limite.",
+    "causas": ["Tensão CA de entrada instável ou muito abaixo do normal no módulo de alimentação.", "Curto-circuito severo diretamente ligado ao barramento CC compartilhado (barras de cobre)."],
+    "solucoes": ["Inspecionar visualmente as barras de interconexão CC entre os módulos.", "Verificar a tensão de alimentação trifásica sob carga."]
+  },
+  {
+    "modelo": "Kinetix 5700",
+    "codigo": "F019",
+    "falha": "Feedback Device Loss",
+    "descricao": "Perda de sinal ou desconexão do dispositivo de feedback digital (DSL / EnDat / Hiperface).",
+    "causas": ["Rompimento ou má conexão no cabo único de tecnologia digital (Single Cable DSL).", "Interferência eletromagnética massiva devido à falta de aterramento do shield de cabo único."],
+    "solucoes": ["Revisar a conexão do conector DSL de cabo único na parte inferior do drive.", "Certificar-se de que o suporte de aterramento metálico (shield clamp) está firmemente esmagando a blindagem do cabo na canela."]
+  },
+  {
+    "modelo": "Kinetix 5700",
+    "codigo": "F031",
+    "falha": "Safe Torque Off Flt",
+    "descricao": "Discrepância ou falha detectada nas entradas do circuito de segurança Safe Torque Off (STO).",
+    "causas": ["Uma das duas linhas de segurança STO falhou ou abriu isoladamente.", "Sinais de segurança redundantes operando fora de sincronismo (atraso de canais)."],
+    "solucoes": ["Verificar o relé de segurança ou a saída do módulo de segurança digital no CLP.", "Testar a continuidade física de ambos os canais redundantes de segurança."]
+  },
+  {
+    "modelo": "Kinetix 5700",
+    "codigo": "F045",
+    "falha": "Motor Thermal Overload",
+    "descricao": "O modelo eletrônico de temperatura do servo motor atingiu o limite crítico.",
+    "causas": ["Ciclo de trabalho da máquina excessivo para as dimensões atuais do motor.", "Operação contínua em condições extremas de torque sem refrigeração."],
+    "solucoes": ["Rever as curvas de aceleração ou tempos de parada no código do programa.", "Se necessário, otimizar o projeto mecânico ou instalar ventilação forçada adicional."]
+  }
+]
