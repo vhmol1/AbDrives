@@ -1,0 +1,16 @@
+{
+  "name": "Guia de Falhas Rockwell",
+  "short_name": "Falhas Rockwell",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#121214",
+  "theme-color": "#1e1e24",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/595/595000.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
