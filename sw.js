@@ -1,11 +1,10 @@
-const CACHE_NAME = 'rockwell-faults-v7.04'; // Alterado para v3 para limpar o histórico do telemóvel
+const CACHE_NAME = 'rockwell-faults-v7.05'; // Alterado para v3 para limpar o histórico do telemóvel
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './falhas.json',
   'https://raw.githubusercontent.com/vhmol1/AbDrives/refs/heads/main/ROK-331842c1.png'
-  //'https://cdn-icons-png.flaticon.com/512/595/595000.png'
 ];
 
 // Instala o Service Worker e guarda os arquivos no cache
