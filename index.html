@@ -18,7 +18,18 @@
     --muted: #5e6278;
     --badge-bg: #eef0f4;
     --tag-colors: #e8f4fd;
+    --search-bg: #ffffff;
   }
+  [data-theme="dark"] {
+    --light-bg: #0f1117;
+    --card-bg: #1a1d2e;
+    --border: #2d3142;
+    --text: #e8eaf0;
+    --muted: #8b90a8;
+    --badge-bg: #2d3142;
+    --search-bg: #161925;
+  }
+  *, *::before, *::after { transition: background-color 0.2s, border-color 0.2s, color 0.15s; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Segoe UI', system-ui, sans-serif;
@@ -57,7 +68,7 @@
   .header-title h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
   .header-title p { font-size: 12px; color: #8b90a0; margin-top: 1px; }
   .header-actions { display: flex; align-items: center; gap: 10px; }
-  .lang-btn {
+  .lang-btn, .theme-btn {
     background: transparent;
     color: #fff;
     border: 1px solid rgba(255,255,255,0.25);
@@ -69,7 +80,8 @@
     transition: all 0.2s;
     white-space: nowrap;
   }
-  .lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+  .lang-btn:hover, .theme-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+  .theme-btn { font-size: 15px; padding: 6px 10px; }
   .count-badge {
     background: rgba(255,255,255,0.08);
     color: #8b90a0;
@@ -245,6 +257,7 @@
   </div>
   <div class="header-actions">
     <span class="count-badge" id="count-badge">0 faults</span>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
     <button class="lang-btn" id="langBtn" onclick="toggleLang()">PT</button>
   </div>
 </header>
@@ -1068,380 +1081,4 @@ const DB = [
 { code:'FLT S39', device:'k5500', cat:'FLT-S',
   name:{ en:'Bus Power Leakage Fault', pt:'Falha de Vazamento de Energia do Barramento' },
   desc:{ en:'Measured converter power exceeded estimated inverter output power by more than a factory limit.', pt:'A potência medida do conversor excedeu a potência estimada de saída do inversor em mais do que o limite de fábrica.' },
-  action:{ en:'Check bus power sharing configuration attribute. Check AC input and DC bus-sharing connections.', pt:'Verificar o atributo de configuração de compartilhamento de energia do barramento. Verificar conexões de entrada CA e compartilhamento do barramento CC.' }},
-
-{ code:'FLT S45', device:'k5500', cat:'FLT-S',
-  name:{ en:'Motor Feedback Data Loss Factory Limit Fault', pt:'Falha de Perda de Dados de Feedback do Motor (Limite de Fábrica)' },
-  desc:{ en:'The number of consecutive missed or corrupted serial data packets from the intelligent feedback device has exceeded a factory set limit.', pt:'O número de pacotes de dados seriais consecutivos perdidos ou corrompidos excedeu o limite de fábrica.' },
-  action:{ en:'Check motor feedback cable and connector. Check motor power cable and feedback wire shields. Check motor frame is grounded. Consult solutions for FLT S47.', pt:'Verificar cabo e conector do feedback. Verificar blindagens. Verificar aterramento do motor. Consultar soluções para FLT S47.' }},
-
-{ code:'FLT S47 (DSL nn=01–37)', device:'k5500', cat:'FLT-S',
-  name:{ en:'Motor Feedback Device Failure (DSL nn=01–37)', pt:'Falha do Dispositivo de Feedback do Motor (DSL nn=01–37)' },
-  desc:{ en:'The DSL feedback device detected an internal error. Sub-codes: 01=Acceleration Overflow, 04=Tracking Filter Error, 05=Vector Length Error, 06=Counter Error, 07=Sync Error, 16=Single Turn Error, 17–19=Multi Turn Errors, 35–37=Parameter/Communication Errors.', pt:'O dispositivo DSL detectou erro interno. Sub-códigos: 01=Overflow de aceleração, 04=Erro de filtro, 05=Erro de vetor, 06=Erro de contador, 07=Erro de sync, 16=Erro de single turn, 17–19=Erros de multi-volta, 35–37=Erros de parâmetro/comunicação.' },
-  action:{ en:'Check motor feedback cable connectivity. Check motor phasing and DSL 2-pin connections. Review noise reduction in user manual. Cycle control power. Upgrade firmware (rev. 2.008 or later). Replace motor if fault continues.', pt:'Verificar conectividade do cabo de feedback. Verificar faseamento e conexões DSL de 2 pinos. Revisar redução de ruído. Ciclar alimentação. Atualizar firmware (rev. 2.008 ou posterior). Substituir motor se persistir.' }},
-
-{ code:'FLT S47 (DSL nn=38–88)', device:'k5500', cat:'FLT-S',
-  name:{ en:'Motor Feedback Device Failure (DSL nn=38–88)', pt:'Falha do Dispositivo de Feedback do Motor (DSL nn=38–88)' },
-  desc:{ en:'The DSL feedback device detected an internal error. Sub-codes: 38=Internal System Error, 48=Critical Temperature, 49=Critical LED Current, 50=Critical Supply Voltage, 51=Critical Speed, 52=Critical Acceleration, 53=Counter Overflow, 54=Internal Monitoring Error, 66=Resource Access Error, 88=Position Out of Range.', pt:'O dispositivo DSL detectou erro interno. Sub-códigos: 38=Erro de sistema, 48=Temperatura crítica, 49=Corrente LED crítica, 50=Tensão crítica, 51=Velocidade crítica, 52=Aceleração crítica, 53=Overflow de contador, 54=Erro de monitoramento, 66=Erro de acesso a recurso, 88=Posição fora do alcance.' },
-  action:{ en:'Check motor feedback cable. Check motor phasing and DSL connections. Cycle control power. Check feedback shield. Upgrade firmware. Replace motor if fault continues.', pt:'Verificar cabo de feedback. Verificar faseamento e conexões DSL. Ciclar alimentação. Verificar blindagem. Atualizar firmware. Substituir motor se persistir.' }},
-
-{ code:'FLT S47 (Hiperface)', device:'k5500', cat:'FLT-S',
-  name:{ en:'Motor Feedback Device Failure (Hiperface)', pt:'Falha do Dispositivo de Feedback do Motor (Hiperface)' },
-  desc:{ en:'The Hiperface feedback device detected an internal error. Sub-codes include: 01=Incorrect Alignment Data, 06=Internal Checksum Error, 09=Parity Error, 28=Analog Signal Monitoring, 29=Transmitter Current Critical, 30=Encoder Temperature Critical, 31=Speed Too High, 32=SingleTurn Position Unreliable, 33–35=MultiTurn Position Error.', pt:'O dispositivo Hiperface detectou erro interno. Sub-códigos: 01=Dados de alinhamento incorretos, 06=Erro de checksum, 09=Erro de paridade, 28=Monitoramento analógico, 29=Corrente transmissora crítica, 30=Temperatura crítica, 31=Velocidade muito alta, 32=Posição single-turn não confiável, 33–35=Erros de multi-volta.' },
-  action:{ en:'Check motor feedback cable. Check motor phasing and Hiperface 15-pin connections. Review noise reduction. Cycle control power. Upgrade firmware. Replace motor if fault continues.', pt:'Verificar cabo de feedback. Verificar faseamento e conexões Hiperface de 15 pinos. Revisar redução de ruído. Ciclar alimentação. Atualizar firmware. Substituir motor se persistir.' }},
-
-{ code:'FLT S49', device:'k5500', cat:'FLT-S',
-  name:{ en:'Brake Slip Exception', pt:'Exceção de Deslizamento do Freio' },
-  desc:{ en:'The brake proving function detected motor displacement exceeded the brake slip tolerance while the mechanical brake was engaged.', pt:'A função de comprovação do freio detectou que o deslocamento do motor excedeu a tolerância de deslizamento com o freio mecânico acionado.' },
-  action:{ en:'Check motor brake.', pt:'Verificar o freio do motor.' }},
-
-{ code:'FLT S50', device:'k5500', cat:'FLT-S',
-  name:{ en:'Hardware Overtravel — Positive', pt:'Overtravel de Hardware — Direção Positiva' },
-  desc:{ en:'The axis has moved beyond the digital input travel limit in the positive direction.', pt:'O eixo se moveu além do limite de curso na direção positiva.' },
-  action:{ en:'Check digital input and axis position.', pt:'Verificar a entrada digital e a posição do eixo.' }},
-
-{ code:'FLT S51', device:'k5500', cat:'FLT-S',
-  name:{ en:'Hardware Overtravel — Negative', pt:'Overtravel de Hardware — Direção Negativa' },
-  desc:{ en:'The axis has moved beyond the digital input travel limit in the negative direction.', pt:'O eixo se moveu além do limite de curso na direção negativa.' },
-  action:{ en:'Check digital input and axis position.', pt:'Verificar a entrada digital e a posição do eixo.' }},
-
-{ code:'FLT S54', device:'k5500', cat:'FLT-S',
-  name:{ en:'Excessive Position Error Fault', pt:'Falha de Erro de Posição Excessivo' },
-  desc:{ en:'The position error has exceeded Position Error Tolerance for a time period given by Position Error Tolerance Time.', pt:'O erro de posição excedeu a Tolerância de Erro de Posição pelo tempo definido.' },
-  action:{ en:'Check position loop tuning. Increase feedforward gain. Verify drive and motor sizing. Check motor power wiring. Increase Position Error Tolerance and/or Tolerance Time values.', pt:'Verificar sintonia do loop de posição. Aumentar ganho de feedforward. Verificar dimensionamento. Verificar fiação. Aumentar atributos de tolerância.' }},
-
-{ code:'FLT S55', device:'k5500', cat:'FLT-S',
-  name:{ en:'Excessive Velocity Error Fault', pt:'Falha de Erro de Velocidade Excessivo' },
-  desc:{ en:'The velocity error has exceeded Velocity Error Tolerance for a time period given by Velocity Error Tolerance Time.', pt:'O erro de velocidade excedeu a Tolerância de Erro de Velocidade pelo tempo definido.' },
-  action:{ en:'Check velocity loop tuning. Reduce acceleration. Verify drive and motor sizing. Check motor power wiring. Increase Velocity Error Tolerance and/or Tolerance Time values.', pt:'Verificar sintonia do loop de velocidade. Reduzir aceleração. Verificar dimensionamento. Verificar fiação. Aumentar atributos de tolerância.' }},
-
-{ code:'FLT S56', device:'k5500', cat:'FLT-S',
-  name:{ en:'Overtorque Limit Fault', pt:'Falha de Limite de Sobretorque' },
-  desc:{ en:'Motor torque has risen above the user-defined Overtorque Limit for a time period given by Overtorque Limit Time.', pt:'O torque do motor excedeu o limite máximo definido pelo usuário pelo período definido.' },
-  action:{ en:'Verify Torque Trim value. Verify motion profile. Verify drive and motor sizing. Increase Overtorque Limit and/or Overtorque Limit Time attribute values.', pt:'Verificar Torque Trim. Verificar perfil de movimento. Verificar dimensionamento. Aumentar atributos de Overtorque Limit.' }},
-
-{ code:'FLT S57', device:'k5500', cat:'FLT-S',
-  name:{ en:'Undertorque Limit Fault', pt:'Falha de Limite de Subtorque' },
-  desc:{ en:'Motor torque has dropped below the user-defined Undertorque Limit for a time period given by Undertorque Limit Time.', pt:'O torque do motor caiu abaixo do limite mínimo definido pelo usuário pelo período definido.' },
-  action:{ en:'Verify motion profile. Verify drive and motor sizing. Decrease Undertorque Limit and/or Undertorque Limit Time attribute values.', pt:'Verificar perfil de movimento. Verificar dimensionamento. Diminuir atributos de Undertorque Limit.' }},
-
-// FLT Mxx ────────────────────────────────────────────────────
-{ code:'FLT M02', device:'k5500', cat:'FLT-M',
-  name:{ en:'Motor Voltage Mismatch Fault', pt:'Falha de Incompatibilidade de Tensão do Motor' },
-  desc:{ en:'The configured voltage of the drive is greater than the motor rated voltage. For example, a 400V-class drive with a 200V-class motor.', pt:'A tensão configurada do drive é maior que a tensão nominal do motor. Por exemplo, drive de 400V com motor de 200V.' },
-  action:{ en:'Set the drive voltage to a lower value or replace motor with voltage rating that matches the drive.', pt:'Ajustar a tensão do drive para um valor menor ou substituir o motor por um de tensão compatível.' }},
-
-{ code:'FLT M25', device:'k5500', cat:'FLT-M',
-  name:{ en:'DC Common Bus Fault', pt:'Falha de Barramento CC Comum' },
-  desc:{ en:'AC power was detected by the drive while configured for shared DC operation.', pt:'A alimentação CA foi detectada pelo drive enquanto configurado para operação de CC compartilhada.' },
-  action:{ en:'Check the drive power configuration from controller. Check wiring.', pt:'Verificar a configuração de potência do drive a partir do controlador. Verificar a fiação.' }},
-
-{ code:'FLT M26', device:'k5500', cat:'FLT-M',
-  name:{ en:'Runtime Error', pt:'Erro de Runtime' },
-  desc:{ en:'The drive firmware encountered an unrecoverable runtime error.', pt:'O firmware do drive encontrou um erro de runtime irrecuperável.' },
-  action:{ en:'Cycle control power. Reset the drive. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Resetar o drive. Retornar para reparo se persistir.' }},
-
-{ code:'FLT M28', device:'k5500', cat:'FLT-M',
-  name:{ en:'Safety Module Communication Error', pt:'Erro de Comunicação do Módulo de Segurança' },
-  desc:{ en:'Communication with the safety hardware within the drive has failed. (2198-Hxxx-ERS2 drives only)', pt:'A comunicação com o hardware de segurança interno ao drive falhou. (Somente drives 2198-Hxxx-ERS2)' },
-  action:{ en:'Cycle control power. Reset the drive. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Resetar o drive. Retornar para reparo se persistir.' }},
-
-// INIT FLT ───────────────────────────────────────────────────
-{ code:'INIT FLT M01', device:'k5500', cat:'INIT',
-  name:{ en:'Smart Encoder Data Corruption', pt:'Corrupção de Dados do Encoder Inteligente' },
-  desc:{ en:'The data stored in the encoder has a checksum error.', pt:'Os dados armazenados no encoder têm um erro de checksum.' },
-  action:{ en:'Cycle control power. Return motor for repair if fault continues.', pt:'Ciclar a alimentação de controle. Retornar o motor para reparo se persistir.' }},
-
-{ code:'INIT FLT M02', device:'k5500', cat:'INIT',
-  name:{ en:'Motor Data Range Error', pt:'Erro de Faixa dos Dados do Motor' },
-  desc:{ en:'A motor data attribute stored in the encoder is out of range. Sub-codes: 01=Rev, 02=Cont Current, 03=Peak Current, 04=Rated Power, 05=Overload Limit, 06=Thermal Capacitance, 07=Thermal Resistance, 08=Motor Resistance, 09=Motor Inductance, 10=Inertia, 11=Rated Speed, 12=Max Speed, 13=Rated Torque, 14=Torque Const, 15=Back EMF Const, 16=Pole Pitch.', pt:'Um atributo de dados do motor no encoder está fora do intervalo. Sub-códigos referem-se a parâmetros como Rev, Correntes, Potência, Sobrecarga, Capacitância/Resistência Térmica, Resistência/Indutância, Inércia, Velocidades, Torques, Constantes e Passo de Polo.' },
-  action:{ en:'Cycle control power. Return motor for repair if fault continues.', pt:'Ciclar a alimentação de controle. Retornar o motor para reparo se persistir.' }},
-
-{ code:'INIT FLT M03', device:'k5500', cat:'INIT',
-  name:{ en:'Motor Feedback Communication Startup Fault', pt:'Falha de Inicialização de Comunicação do Feedback do Motor' },
-  desc:{ en:'Communication with the encoder could not be established.', pt:'Não foi possível estabelecer comunicação com o encoder.' },
-  action:{ en:'Cycle control power. Check motor feedback connector. Check motor power and feedback shield terminations on the drive. Return motor for repair if fault continues.', pt:'Ciclar a alimentação de controle. Verificar conector de feedback. Verificar terminações de blindagem. Retornar motor para reparo se persistir.' }},
-
-{ code:'INIT FLT M14', device:'k5500', cat:'INIT',
-  name:{ en:'Invalid Safety Firmware', pt:'Firmware de Segurança Inválido' },
-  desc:{ en:'The loaded Safety firmware is not compatible with the drive firmware.', pt:'O firmware de segurança carregado não é compatível com o firmware do drive.' },
-  action:{ en:'Cycle control power. Update the drive firmware. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Atualizar o firmware do drive. Retornar para reparo se persistir.' }},
-
-{ code:'INIT FLT M20', device:'k5500', cat:'INIT',
-  name:{ en:'Unknown Module Fault', pt:'Falha de Módulo Desconhecido' },
-  desc:{ en:'The product code of the power board is invalid.', pt:'O código de produto da placa de potência é inválido.' },
-  action:{ en:'Cycle control power. Reset the drive. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Resetar o drive. Retornar para reparo se persistir.' }},
-
-{ code:'INIT FLT M21', device:'k5500', cat:'INIT',
-  name:{ en:'Factory Configuration Error', pt:'Erro de Configuração de Fábrica' },
-  desc:{ en:'Factory configuration data is missing or invalid.', pt:'Os dados de configuração de fábrica estão ausentes ou são inválidos.' },
-  action:{ en:'Cycle control power. Reset the drive. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Resetar o drive. Retornar para reparo se persistir.' }},
-
-// INHIBIT ────────────────────────────────────────────────────
-{ code:'INHIBIT S02', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Motor Not Configured', pt:'Motor Não Configurado' },
-  desc:{ en:'The motor has not been properly configured for use.', pt:'O motor não foi configurado corretamente para uso.' },
-  action:{ en:'Verify motor configuration in the Logix Designer application.', pt:'Verificar a configuração do motor no Logix Designer.' }},
-
-{ code:'INHIBIT S03', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Feedback Not Configured', pt:'Feedback Não Configurado' },
-  desc:{ en:'The feedback has not been properly configured for use.', pt:'O feedback não foi configurado corretamente para uso.' },
-  action:{ en:'Verify feedback configuration in the Logix Designer application.', pt:'Verificar a configuração do feedback no Logix Designer.' }},
-
-{ code:'INHIBIT S04', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Commutation Not Configured', pt:'Comutação Não Configurada' },
-  desc:{ en:'Associated permanent magnet motor commutation has not been configured for use.', pt:'A comutação do motor de imã permanente associado não foi configurada.' },
-  action:{ en:'Verify that the proper motor feedback commutation alignment has been selected.', pt:'Verificar que o alinhamento de comutação adequado foi selecionado.' }},
-
-{ code:'INHIBIT S05', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Safe Torque Off Active', pt:'Safe Torque Off Ativo' },
-  desc:{ en:'The safety function has disabled the power structure.', pt:'A função de segurança desabilitou o estágio de potência.' },
-  action:{ en:'Check SO.SafeTorqueOff bit of safety connection. Check if Reset is required (SI.ResetRequired). Toggle SO.Reset bit if needed. Ensure active safety connection and safety controller in run mode. Clear safety faults if required.', pt:'Verificar bit SO.SafeTorqueOff da conexão de segurança. Verificar se reset é necessário (SI.ResetRequired). Alternar bit SO.Reset se necessário. Garantir conexão de segurança ativa e controlador em modo RUN. Limpar falhas de segurança.' }},
-
-{ code:'INHIBIT M04', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Torque Prove Configuration — Start Inhibit', pt:'Configuração de Torque Prove — Inibição de Início' },
-  desc:{ en:'When Torque Proving is enabled, control mode, feedback mode, motor feedback type, and motor option configuration must be set properly.', pt:'Quando o Torque Proving está habilitado, o modo de controle, modo de feedback, tipo de feedback do motor e configuração de opção do motor devem estar definidos corretamente.' },
-  action:{ en:'Verify that the proper axis configuration has been selected. Verify that sufficient torque prove current has been configured.', pt:'Verificar que a configuração correta do eixo foi selecionada. Verificar que a corrente de torque prove é suficiente.' }},
-
-{ code:'INHIBIT M05', device:'k5500', cat:'INHIBIT',
-  name:{ en:'Start Inhibit — Safe Torque Off', pt:'Inibição de Início — Safe Torque Off' },
-  desc:{ en:'The safety function has disabled the power structure.', pt:'A função de segurança desabilitou o estágio de potência.' },
-  action:{ en:'Check safety input wiring. Check state of safety devices.', pt:'Verificar fiação das entradas de segurança. Verificar estado dos dispositivos de segurança.' }},
-
-// NODE FLT ───────────────────────────────────────────────────
-{ code:'NODE FLT 01', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Control Connection Update Fault', pt:'Falha de Atualização da Conexão de Controle' },
-  desc:{ en:'Several consecutive updates from the controller have been lost.', pt:'Várias atualizações consecutivas do controlador foram perdidas.' },
-  action:{ en:'Remove unnecessary network devices. Change network topology. Use high performance network equipment. Use shielded cables. Separate signal wiring from power wiring.', pt:'Remover dispositivos desnecessários da rede. Alterar topologia. Usar equipamento de alto desempenho. Usar cabos blindados. Separar fiação de sinal da fiação de potência.' }},
-
-{ code:'NODE FLT 02', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Processor Watchdog Fault', pt:'Falha de Watchdog do Processador' },
-  desc:{ en:'The processor on the power board or control board failed to update in the required time.', pt:'O processador na placa de potência ou de controle não atualizou no tempo exigido.' },
-  action:{ en:'Cycle control power. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Retornar para reparo se persistir.' }},
-
-{ code:'NODE FLT 03 (PwrIF)', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Hardware Fault — PwrIF', pt:'Falha de Hardware — PwrIF' },
-  desc:{ en:'Communication with the power board could not be established.', pt:'Não foi possível estabelecer comunicação com a placa de potência.' },
-  action:{ en:'Cycle control power. Update the drive firmware. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Atualizar firmware. Retornar para reparo se persistir.' }},
-
-{ code:'NODE FLT 03 (DSL)', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Hardware Fault — DSL', pt:'Falha de Hardware — DSL' },
-  desc:{ en:'Communication with the DSL encoder could not be established.', pt:'Não foi possível estabelecer comunicação com o encoder DSL.' },
-  action:{ en:'Check DSL feedback wiring. Verify DSL cable is not shorted or open. Replace Kinetix VP motor feedback device if defective. Cycle power.', pt:'Verificar fiação do feedback DSL. Verificar se o cabo está em curto ou aberto. Substituir dispositivo de feedback se defeituoso. Ciclar alimentação.' }},
-
-{ code:'NODE FLT 03 (Board)', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Hardware Fault — Board Compatibility', pt:'Falha de Hardware — Compatibilidade de Placa' },
-  desc:{ en:'The control and power boards are incompatible.', pt:'As placas de controle e potência são incompatíveis.' },
-  action:{ en:'Return drive for repair if fault continues.', pt:'Retornar o drive para reparo se persistir.' }},
-
-{ code:'NODE FLT 05', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Clock Skew Fault', pt:'Falha de Desvio de Clock' },
-  desc:{ en:'The controller time and the drive\'s system time are not the same.', pt:'O tempo do controlador e o tempo do sistema do drive não são os mesmos.' },
-  action:{ en:'Cycle control power. Check controller and Ethernet switch operation.', pt:'Ciclar a alimentação de controle. Verificar operação do controlador e do switch Ethernet.' }},
-
-{ code:'NODE FLT 06', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Lost Controller Connection Fault', pt:'Falha de Perda de Conexão com o Controlador' },
-  desc:{ en:'Communication with the controller has been lost.', pt:'A comunicação com o controlador foi perdida.' },
-  action:{ en:'Check Ethernet connection. Check controller and Ethernet switch operation.', pt:'Verificar a conexão Ethernet. Verificar operação do controlador e do switch Ethernet.' }},
-
-{ code:'NODE FLT 07', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Clock Sync Fault', pt:'Falha de Sincronização de Clock' },
-  desc:{ en:'Drive\'s local clock lost synchronization with controller\'s clock and was not able to resynchronize within allotted time.', pt:'O clock local do drive perdeu sincronização com o clock do controlador e não ressincronizou no tempo permitido.' },
-  action:{ en:'Check Ethernet connection. Check controller and Ethernet switch operation.', pt:'Verificar conexão Ethernet. Verificar operação do controlador e do switch Ethernet.' }},
-
-{ code:'NODE FLT 09', device:'k5500', cat:'NODE-FLT',
-  name:{ en:'Duplicate IP Address Fault', pt:'Falha de Endereço IP Duplicado' },
-  desc:{ en:'Several consecutive updates from the controller have been lost due to duplicate IP address.', pt:'Várias atualizações do controlador perdidas por endereço IP duplicado.' },
-  action:{ en:'Select an IP address not already in use on the network.', pt:'Selecionar um endereço IP não utilizado na rede.' }},
-
-// NODE ALARM ─────────────────────────────────────────────────
-{ code:'NODE ALARM 01', device:'k5500', cat:'NODE-ALM',
-  name:{ en:'Control Connection Update Alarm', pt:'Alarme de Atualização da Conexão de Controle' },
-  desc:{ en:'Updates from the controller have been late.', pt:'As atualizações do controlador estão chegando com atraso.' },
-  action:{ en:'Remove unnecessary network devices. Change network topology. Use high performance network equipment. Use shielded cables. Separate signal from power wiring.', pt:'Remover dispositivos desnecessários da rede. Alterar topologia. Usar equipamento de alto desempenho. Usar cabos blindados. Separar fiação de sinal.' }},
-
-{ code:'NODE ALARM 03', device:'k5500', cat:'NODE-ALM',
-  name:{ en:'Clock Jitter Alarm', pt:'Alarme de Jitter de Clock' },
-  desc:{ en:'The sync variance has exceeded the sync threshold while the device is running in sync mode.', pt:'A variância de sincronização excedeu o limiar de sincronização durante operação em modo síncrono.' },
-  action:{ en:'Check the Ethernet connection. Check controller and Ethernet switch operation. Use a managed switch which supports CIP Sync (PTP time synchronization) and configure clock mode correctly.', pt:'Verificar a conexão Ethernet. Verificar operação do controlador e do switch. Usar switch gerenciado com suporte a CIP Sync (PTP) e configurar o modo de clock corretamente.' }},
-
-{ code:'NODE ALARM 04', device:'k5500', cat:'NODE-ALM',
-  name:{ en:'Clock Skew Alarm', pt:'Alarme de Desvio de Clock' },
-  desc:{ en:'The controller time and the drive\'s time are not the same.', pt:'O tempo do controlador e o tempo do drive não são os mesmos.' },
-  action:{ en:'Check the Ethernet connection. Check controller and Ethernet switch operation.', pt:'Verificar conexão Ethernet. Verificar operação do controlador e do switch.' }},
-
-{ code:'NODE ALARM 05', device:'k5500', cat:'NODE-ALM',
-  name:{ en:'Clock Sync Alarm', pt:'Alarme de Sincronização de Clock' },
-  desc:{ en:'Drive\'s local clock lost synchronization with controller\'s clock for a short time during synchronous operation.', pt:'O clock local do drive perdeu sincronização com o controlador por curto período durante operação síncrona.' },
-  action:{ en:'Check the Ethernet connection. Check controller and Ethernet switch operation.', pt:'Verificar conexão Ethernet. Verificar operação do controlador e do switch.' }},
-
-// SAFE FLT (Hardwired STO) ───────────────────────────────────
-{ code:'SAFE FLT 09', device:'k5500', cat:'SAFE',
-  name:{ en:'Guard Stop Input Fault', pt:'Falha de Entrada de Parada de Segurança' },
-  desc:{ en:'Safe torque-off function mismatch detected when safety inputs are in different states for more than 1.0 second or re-trigger quicker than 1.0 second.', pt:'Divergência na função Safe Torque-Off detectada quando as entradas de segurança estão em estados diferentes por mais de 1,0 segundo.' },
-  action:{ en:'Verify safety wiring and connections (STO connector, cable/header seating, +24V power). Check state of safety inputs. Reset error and run proof test. Return drive to Rockwell Automation if error persists.', pt:'Verificar fiação e conexões de segurança (conector STO, assentamento, +24V). Verificar estado das entradas de segurança. Resetar erro e executar teste. Retornar à Rockwell Automation se persistir.' }},
-
-// SAFE FLT (Integrated STO) ──────────────────────────────────
-{ code:'SAFE FLT S01', device:'k5500', cat:'SAFE',
-  name:{ en:'Safety Core Internal Fault', pt:'Falha Interna do Núcleo de Segurança' },
-  desc:{ en:'Drive safety diagnostic detected internal STO design failure.', pt:'O diagnóstico de segurança do drive detectou falha interna no projeto STO.' },
-  action:{ en:'Cycle control power. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Retornar para reparo se persistir.' }},
-
-{ code:'SAFE FLT S03', device:'k5500', cat:'SAFE',
-  name:{ en:'Safe Torque Off Fault', pt:'Falha de Safe Torque Off' },
-  desc:{ en:'Drive safety diagnostic detected internal STO design failure.', pt:'O diagnóstico de segurança do drive detectou falha interna no projeto STO.' },
-  action:{ en:'Cycle control power. Execute STO function. Return drive for repair if fault continues.', pt:'Ciclar a alimentação de controle. Executar a função STO. Retornar para reparo se persistir.' }},
-
-// ═══════════════════════════════════════════════════════════════
-// PLACEHOLDER — remaining devices (add data as manuals arrive)
-// ═══════════════════════════════════════════════════════════════
-// PowerFlex 40 — pf40
-// PowerFlex 520 Series — pf520 (existing partial data kept below)
-// PowerFlex 700 — pf700
-// PowerFlex 750 Series — pf750
-// Kinetix 6000 — k6000
-// Kinetix 6200/6500 — k6200
-
-{ code:'F064', device:'pf520', cat:'FLT-S',
-  name:{ en:'Overload', pt:'Sobrecarga' },
-  desc:{ en:'Drive rating has been exceeded. Output current is too high.', pt:'A capacidade do inversor foi excedida. A corrente de saída está excessivamente alta.' },
-  action:{ en:'Check for blockage or binding, reduce mechanical load, verify motor parameters.', pt:'Verificar travamento mecânico, reduzir a carga acoplada, validar parâmetros do motor.' }},
-
-{ code:'F004', device:'pf520', cat:'FLT-S',
-  name:{ en:'UnderVoltage', pt:'Subtensão' },
-  desc:{ en:'DC bus voltage fell below minimum threshold due to low line input voltage.', pt:'A tensão do barramento CC caiu abaixo do limite mínimo devido à baixa tensão na entrada CA.' },
-  action:{ en:'Check incoming AC line supply, inspect incoming fuses and line status.', pt:'Verificar a linha de alimentação CA de entrada, inspecionar fusíveis e estabilidade da rede.' }},
-
-{ code:'F005', device:'pf520', cat:'FLT-S',
-  name:{ en:'OverVoltage', pt:'Sobretensão' },
-  desc:{ en:'DC bus voltage exceeded maximum threshold due to excessive deceleration or regeneration.', pt:'A tensão do barramento CC excedeu o limite máximo devido à desaceleração rápida ou regeneração.' },
-  action:{ en:'Extend deceleration time or install dynamic braking resistor module.', pt:'Aumentar o tempo de desaceleração ou instalar um resistor de frenagem dinâmica.' }},
-
-{ code:'Fault 7', device:'pf750', cat:'FLT-S',
-  name:{ en:'Motor Overload', pt:'Sobrecarga do Motor' },
-  desc:{ en:'The drive has calculated a thermal overload condition on the connected motor (I²t based).', pt:'O inversor calculou uma condição de sobrecarga térmica no motor conectado (baseado em I²t).' },
-  action:{ en:'Reduce motor load, inspect operation profile, check motor cooling fans.', pt:'Reduzir a carga do motor, inspecionar o perfil de operação, verificar ventilação do motor.' }},
-
-{ code:'Fault 17', device:'pf750', cat:'FLT-S',
-  name:{ en:'Input Phase Loss', pt:'Perda de Fase de Entrada' },
-  desc:{ en:'DC bus ripple exceeds a pre-defined threshold indicating missing input phase.', pt:'O ripple do barramento CC excedeu o limite programado, indicando perda ou desequilíbrio de fase na entrada.' },
-  action:{ en:'Check incoming power line wiring, inspect fuses and input contactors.', pt:'Verificar a fiação da linha de potência de entrada, testar fusíveis e contatores.' }},
-
-{ code:'Fault 9', device:'pf700', cat:'FLT-S',
-  name:{ en:'Overcurrent', pt:'Sobrecorrente' },
-  desc:{ en:'The drive output current has exceeded the hardware limit detection.', pt:'A corrente de saída do inversor ultrapassou instantaneamente o limite de segurança de hardware.' },
-  action:{ en:'Check for short circuit in motor cables or ground faults, check tuning.', pt:'Verificar curto-circuito nos cabos do motor ou falhas à terra, revisar sintonia do loop.' }},
-
-{ code:'E04', device:'k6000', cat:'FLT-S',
-  name:{ en:'Motor Overtemperature Fault', pt:'Falha de Sobretemperatura do Motor' },
-  desc:{ en:'Thermal switch or thermistor on the motor indicates excessive temperature winding.', pt:'O termistor ou interruptor térmico do motor acionou, indicando aquecimento crítico do enrolamento.' },
-  action:{ en:'Allow motor to cool down, check ambient temperature, inspect duty cycle.', pt:'Aguardar o motor resfriar, monitorar a temperatura ambiente e recalcular o ciclo de trabalho.' }},
-
-{ code:'FLT 128:09', device:'k6200', cat:'SAFE',
-  name:{ en:'Guard Stop Input Mismatch', pt:'Divergência nos Canais de Entrada de Segurança' },
-  desc:{ en:'Safe torque-off mismatch detected when safety inputs are in different states for more than 1.0 second.', pt:'Detectado desalinhamento dos canais STO por período superior a 1,0 segundo.' },
-  action:{ en:'Verify safety wiring connections, check state of dual safety inputs.', pt:'Verificar conexões e fiação do circuito de segurança, testar saídas do relé ou CLP de segurança.' }},
-
-]; // end DB
-
-// ─── RENDER ENGINE ───────────────────────────────────────────────────────────
-function getCatPills() {
-  const present = [...new Set(DB.map(d => d.cat))];
-  return ['all', ...Object.keys(CATS).filter(c => present.includes(c))];
-}
-
-function buildCatFilters() {
-  const wrap = document.getElementById('catFilters');
-  wrap.innerHTML = `<span class="cat-label" id="cat-label">${UI[lang].catLabel}</span>`;
-  const pills = getCatPills();
-  pills.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'pill' + (cat === activeCat ? ' active' : '');
-    btn.dataset.cat = cat;
-    btn.textContent = cat === 'all'
-      ? (lang === 'en' ? 'All' : 'Todos')
-      : CATS[cat][lang];
-    btn.onclick = () => { activeCat = cat; buildCatFilters(); applyFilters(); };
-    wrap.appendChild(btn);
-  });
-}
-
-function renderCards(data) {
-  const grid = document.getElementById('faultsGrid');
-  document.getElementById('count-badge').textContent = UI[lang].countFaults(data.length);
-
-  if (data.length === 0) {
-    grid.innerHTML = `
-      <div class="no-results">
-        <div class="no-results-icon">🔍</div>
-        <h3>${UI[lang].noResults}</h3>
-        <p>${UI[lang].noResultsSub}</p>
-      </div>`;
-    return;
-  }
-
-  grid.innerHTML = data.map(item => {
-    const catMeta = CATS[item.cat] || { tagClass: 'tag-cat', en: item.cat, pt: item.cat };
-    return `
-    <div class="card">
-      <div>
-        <div class="card-top">
-          <span class="fault-code">${item.code}</span>
-          <div class="tags">
-            <span class="tag tag-device">${DEVICE_NAMES[item.device] || item.device}</span>
-            <span class="tag ${catMeta.tagClass}">${catMeta[lang]}</span>
-          </div>
-        </div>
-        <div class="fault-name">${item.name[lang]}</div>
-        <div class="fault-desc">${item.desc[lang]}</div>
-      </div>
-      <div class="fault-action">
-        <div class="action-label">${UI[lang].actionLabel}</div>
-        <div>${item.action[lang]}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function applyFilters() {
-  const search = document.getElementById('searchInput').value.toLowerCase().trim();
-  const device = document.getElementById('deviceFilter').value;
-
-  const filtered = DB.filter(item => {
-    const matchDevice = device === 'all' || item.device === device;
-    const matchCat = activeCat === 'all' || item.cat === activeCat;
-    const matchSearch = !search || (
-      item.code.toLowerCase().includes(search) ||
-      item.name[lang].toLowerCase().includes(search) ||
-      item.desc[lang].toLowerCase().includes(search) ||
-      item.action[lang].toLowerCase().includes(search)
-    );
-    return matchDevice && matchCat && matchSearch;
-  });
-
-  renderCards(filtered);
-}
-
-function toggleLang() {
-  lang = lang === 'en' ? 'pt' : 'en';
-  const u = UI[lang];
-  document.getElementById('hdr-title').textContent = u.title;
-  document.getElementById('hdr-sub').textContent = u.sub;
-  document.getElementById('searchInput').placeholder = u.searchPH;
-  document.getElementById('langBtn').textContent = u.langBtn;
-  document.querySelector('#deviceFilter option[value="all"]').textContent = u.filterAll;
-  buildCatFilters();
-  applyFilters();
-}
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-window.onload = () => {
-  buildCatFilters();
-  applyFilters();
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-};
-</script>
-</body>
-</html>
+  action:{ en:'Check bus power sharing configuration attribute. Check AC input and DC bus-sharing connections.', pt:'Verificar o atributo de configuração de compartilhamento de ener
