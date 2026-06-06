@@ -2781,10 +2781,10 @@ function toggleLang() {
   document.querySelector('#deviceFilter option[value="all"]').textContent = u.filterAll;
   // Update modal labels
   const ml = {
-    en: { title:'Fault & Alarm Central', version:'Version', author:'Developer',
+    en: { title:'RA Drives Fault', version:'Version', author:'Developer',
           devices:'Devices covered', faults:'Total faults', offline:'Offline',
           offlineval:'✓ PWA ready', source:'Data source', footer:'Rockwell Automation® is a registered trademark.<br>This app is an independent technical reference tool.' },
-    pt: { title:'Central de Falhas e Alarmes', version:'Versão', author:'Desenvolvedor',
+    pt: { title:'RA Drives Fault', version:'Versão', author:'Desenvolvedor',
           devices:'Dispositivos cobertos', faults:'Total de falhas', offline:'Offline',
           offlineval:'✓ PWA pronto', source:'Fonte dos dados', footer:'Rockwell Automation® é uma marca registrada.<br>Este app é uma ferramenta de referência técnica independente.' }
   };
@@ -2857,13 +2857,13 @@ window.onload = () => {
 <div class="modal-overlay" id="aboutOverlay" onclick="closeAboutOutside(event)">
   <div class="modal" id="aboutModal">
     <button class="modal-close" onclick="toggleAbout()">✕</button>
-    <div class="modal-logo">⚡</div>
-    <div class="modal-title" id="modal-app-title">Fault &amp; Alarm Central</div>
+    <div class="modal-logo">RA</div>
+    <div class="modal-title" id="modal-app-title">RA Drives Faults</div>
     <div class="modal-version" id="modal-version">v--.--</div>
     <hr class="modal-divider">
     <div class="modal-row">
       <span class="label" id="ml-author">Developer</span>
-      <span class="value">Vitor Hugo Molinari</span>
+      <span class="value">Vitor Lima</span>
     </div>
     <div class="modal-row">
       <span class="label" id="ml-devices">Devices covered</span>
@@ -2872,14 +2872,6 @@ window.onload = () => {
     <div class="modal-row">
       <span class="label" id="ml-faults">Total faults</span>
       <span class="value" id="modal-fault-count">—</span>
-    </div>
-    <div class="modal-row">
-      <span class="label" id="ml-offline">Offline</span>
-      <span class="value" id="ml-offline-val">✓ PWA ready</span>
-    </div>
-    <div class="modal-row">
-      <span class="label" id="ml-source">Data source</span>
-      <span class="value">Rockwell Automation Manuals</span>
     </div>
     <hr class="modal-divider">
     <div class="modal-footer" id="modal-footer">
